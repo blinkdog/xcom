@@ -1,5 +1,5 @@
 /*
- * App.java
+ * XcomEditorImpl.java
  * Copyright 2012 Patrick Meade
  * 
  * This program is free software: you can redistribute it and/or modify
@@ -18,10 +18,14 @@
 
 package com.rpgsheet.xcom;
 
-public class App
+import org.springframework.stereotype.Service;
+
+@Service("xcomEditor")
+public class XcomEditorImpl implements XcomEditor
 {
-    public static void main(String[] args)
+    @Override
+    public void run()
     {
-        System.out.println("Hello World!");
+        System.out.println("Hello, UFO!");
     }
 }

@@ -1,5 +1,5 @@
 /*
- * AppTest.java
+ * PimpMyXcomTest.java
  * Copyright 2012 Patrick Meade
  * 
  * This program is free software: you can redistribute it and/or modify
@@ -24,10 +24,19 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-public class AppTest
+@ContextConfiguration("classpath:xcom-test.xml")
+@RunWith(SpringJUnit4ClassRunner.class)
+public class PimpMyXcomTest
 {
-    public AppTest() {
+    @Autowired private ApplicationContext appContext;
+    
+    public PimpMyXcomTest() {
     }
     
     @BeforeClass
@@ -49,5 +58,16 @@ public class AppTest
     @Test
     public void testAlwaysSucceed() {
         assertTrue(true);
+    }
+    
+    @Test
+    public void testApplicationContext() {
+        assertNotNull(appContext);
+    }
+    
+    @Test
+    public void testXcomEditorBean() {
+        XcomEditor xcomEditor = appContext.getBean(XcomEditor.class);
+        assertNotNull(xcomEditor);
     }
 }
