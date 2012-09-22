@@ -18,6 +18,8 @@
 
 package com.rpgsheet.xcom;
 
-public interface XcomEditor extends Runnable
+import org.newdawn.slick.Game;
+
+public interface XcomEditor extends Game
 {
 }

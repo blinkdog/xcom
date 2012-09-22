@@ -19,21 +19,40 @@
 package com.rpgsheet.xcom;
 
 import com.rpgsheet.xcom.service.UfoGameFileService;
+import org.newdawn.slick.BasicGame;
+import org.newdawn.slick.GameContainer;
+import org.newdawn.slick.Graphics;
+import org.newdawn.slick.SlickException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import static com.rpgsheet.xcom.service.UfoGameFileService.UFO_BAT;
-import java.io.File;
-
 @Service("xcomEditor")
-public class XcomEditorImpl implements XcomEditor
+public class XcomEditorImpl extends BasicGame implements XcomEditor
 {
+    public XcomEditorImpl() {
+        super("UFO: Enemy Unknown (Save Game Editor)");
+    }
+    
     @Override
-    public void run()
+    public void init(GameContainer gc) throws SlickException
     {
-        System.out.println("Hello, UFO!");
-        File ufoBat = ufoGameFileService.getGameFile(UFO_BAT);
-        System.out.println(UFO_BAT + ": " + ufoBat.getAbsolutePath());
+    }
+
+    /**
+     * Update the logic of the game.
+     * @param gc GameContainer in which the game is running
+     * @param timeDelta milliseconds since the last call to update() finished
+     * @throws SlickException if anything bad happens
+     */
+    @Override
+    public void update(GameContainer gc, int timeDelta) throws SlickException
+    {
+    }
+
+    @Override
+    public void render(GameContainer gc, Graphics g) throws SlickException
+    {
+        g.clear();
     }
     
     @Autowired private UfoGameFileService ufoGameFileService;

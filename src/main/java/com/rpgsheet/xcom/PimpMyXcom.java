@@ -18,16 +18,32 @@
 
 package com.rpgsheet.xcom;
 
+import org.newdawn.slick.AppGameContainer;
+import org.newdawn.slick.SlickException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 public class PimpMyXcom
 {
+    public static final int DISPLAY_SCALE = 4;
+    public static final int DISPLAY_WIDTH = 320 * DISPLAY_SCALE;
+    public static final int DISPLAY_HEIGHT = 200 * DISPLAY_SCALE;
+    public static final boolean USE_FULLSCREEN = false;
+    
     public static void main(String[] args)
     {
+        // create the Spring application context
         ApplicationContext appContext =
                 new ClassPathXmlApplicationContext("classpath:xcom.xml");
+        // create the XcomEditor application
         XcomEditor xcomEditor = appContext.getBean(XcomEditor.class);
-        xcomEditor.run();
+        // run XcomEditor in Slick2D's AppGameContainer
+        try {
+            AppGameContainer app = new AppGameContainer(xcomEditor);
+            app.setDisplayMode(DISPLAY_WIDTH, DISPLAY_HEIGHT, USE_FULLSCREEN);
+            app.start();
+        } catch(SlickException e) {
+            e.printStackTrace(System.err);
+        }
     }
 }

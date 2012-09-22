@@ -33,19 +33,57 @@
     <name>xcom</name>
     <url>http://maven.apache.org</url>
 
+    <repositories>
+        <repository>
+            <id>project-local-maven-repo</id>
+            <url>file://${project.basedir}/repo</url>
+        </repository>
+    </repositories>
+
     <properties>
         <org.springframework.version>3.1.2.RELEASE</org.springframework.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
 
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>com.googlecode.mavennatives</groupId>
+                <artifactId>maven-nativedependencies-plugin</artifactId>
+                <version>0.0.5</version>
+                <executions>
+                    <execution>
+                        <id>unpacknatives</id>
+                        <phase>generate-resources</phase>
+                        <goals>
+                            <goal>copy</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+
     <dependencies>
         <!-- application dependencies -->
+        <dependency>
+            <groupId>org.lwjgl.lwjgl</groupId>
+            <artifactId>lwjgl</artifactId>
+            <version>2.8.4</version>
+        </dependency>
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-context</artifactId>
             <version>${org.springframework.version}</version>
         </dependency>
-        
+
+        <!-- local repository dependencies -->
+        <dependency>
+            <groupId>com.cokeandcode</groupId>
+            <artifactId>slick</artifactId>
+            <version>274</version>
+        </dependency>
+                
         <!-- testing dependencies -->
         <dependency>
             <groupId>junit</groupId>

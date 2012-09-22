@@ -1,0 +1,24 @@
+--------------------------------------------
+Slick2D and project-local Maven repositories
+--------------------------------------------
+repo contains a project-local maven repository for handling 3rd party jars
+that aren't included in a proper maven repository. I can't take credit for
+this brililant idea, so the URL where I found it is here:
+
+    http://stackoverflow.com/questions/2229757
+
+Although LWJGL is included in a proper maven repository, the Slick2D library
+is not. So, I downloaded the Slick2D library from here:
+
+    http://slick.cokeandcode.com/downloads/slick.zip
+
+Then I added lib/slick.jar to the project-local repository with the following
+command:
+
+    mvn install:install-file -Dfile=slick.jar -DgroupId=com.cokeandcode -DartifactId=slick -Dversion=274 -Dpackaging=jar -DlocalRepositoryPath=/path/to/xcom/repo
+
+Note that everything in the command above is arbitrary. I've tried to follow
+the pattern of other artifacts in other repositories. The version (274) comes
+from Slick2D itself. Upon starting up, it outputs the following message:
+
+    INFO:Slick Build #274
