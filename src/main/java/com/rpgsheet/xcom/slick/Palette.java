@@ -1,5 +1,5 @@
 /*
- * UfoGameFileService.java
+ * Palette.java
  * Copyright 2012 Patrick Meade
  * 
  * This program is free software: you can redistribute it and/or modify
@@ -16,15 +16,37 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package com.rpgsheet.xcom.service;
+package com.rpgsheet.xcom.slick;
 
-import java.io.File;
+import org.newdawn.slick.Color;
 
-public interface UfoGameFileService
+public class Palette
 {
-    public static final String BACKPALS_DAT = "GEODATA/BACKPALS.DAT";
-    public static final String PALETTES_DAT = "GEODATA/PALETTES.DAT";
-    public static final String UFO_BAT = "UFO.BAT";
+    public Palette(int numColors) {
+        colors = new Color[numColors];
+        extraData = null;
+    }
+
+    public Color getColor(int index) {
+        return colors[index];
+    }
     
-    public File getGameFile(String fileName);
+    public byte[] getExtraData() {
+        return extraData;
+    }
+    
+    public int getNumColors() {
+        return colors.length;
+    }
+
+    public void setColor(int index, Color color) {
+        colors[index] = color;
+    }
+
+    public void setExtraData(byte[] extraData) {
+        this.extraData = extraData;
+    }
+    
+    private Color[] colors;
+    private byte[] extraData;
 }

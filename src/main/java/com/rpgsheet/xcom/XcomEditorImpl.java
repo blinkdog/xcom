@@ -18,7 +18,9 @@
 
 package com.rpgsheet.xcom;
 
-import com.rpgsheet.xcom.service.UfoGameFileService;
+import com.rpgsheet.xcom.io.PaletteInputStream;
+import com.rpgsheet.xcom.service.UfoResourceService;
+import com.rpgsheet.xcom.slick.Palette;
 import org.newdawn.slick.BasicGame;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
@@ -52,8 +54,39 @@ public class XcomEditorImpl extends BasicGame implements XcomEditor
     @Override
     public void render(GameContainer gc, Graphics g) throws SlickException
     {
-        g.clear();
+        renderUfoPalettes(gc,g);
     }
     
-    @Autowired private UfoGameFileService ufoGameFileService;
+    private void renderUfoPalettes(GameContainer gc, Graphics g) throws SlickException
+    {
+        int DISPLAY_WIDTH = gc.getWidth();
+        int DISPLAY_HEIGHT = gc.getHeight();
+        int PAL_WIDTH = (DISPLAY_WIDTH / PaletteInputStream.NUM_PALETTE_FULL_COLORS);
+        int topHeight = DISPLAY_HEIGHT >> 1;
+        
+        g.clear();
+        
+        for(int j=0; j<UfoResourceService.NUM_PALETTE_FULL; j++) {
+            Palette palette = ufoResourceService.getPaletteFull(j);
+            for(int i=0; i<palette.getNumColors(); i++) {
+                g.setColor(palette.getColor(i));
+                g.fillRect(i*PAL_WIDTH, j*(topHeight / UfoResourceService.NUM_PALETTE_FULL),
+                           PAL_WIDTH, (topHeight / UfoResourceService.NUM_PALETTE_FULL));
+            }
+        }
+        
+        for(int j=0; j<UfoResourceService.NUM_PALETTE_MICRO; j++) {
+            Palette palette = ufoResourceService.getPaletteMicro(j);
+            for(int i=0; i<palette.getNumColors(); i++) {
+                g.setColor(palette.getColor(i));
+                g.fillRect(
+                        ((j*palette.getNumColors())*PAL_WIDTH) + (i*PAL_WIDTH),
+                        topHeight+1,
+                        PAL_WIDTH,
+                        (DISPLAY_HEIGHT-topHeight));
+            }
+        }
+    }
+
+    @Autowired private UfoResourceService ufoResourceService;
 }

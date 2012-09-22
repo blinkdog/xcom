@@ -1,5 +1,5 @@
 /*
- * UfoGameFileService.java
+ * UfoResourceService.java
  * Copyright 2012 Patrick Meade
  * 
  * This program is free software: you can redistribute it and/or modify
@@ -18,13 +18,13 @@
 
 package com.rpgsheet.xcom.service;
 
-import java.io.File;
+import com.rpgsheet.xcom.slick.Palette;
 
-public interface UfoGameFileService
+public interface UfoResourceService
 {
-    public static final String BACKPALS_DAT = "GEODATA/BACKPALS.DAT";
-    public static final String PALETTES_DAT = "GEODATA/PALETTES.DAT";
-    public static final String UFO_BAT = "UFO.BAT";
+    public static final int NUM_PALETTE_FULL = 5;
+    public static final int NUM_PALETTE_MICRO = 8;
     
-    public File getGameFile(String fileName);
+    public Palette getPaletteFull(int index);
+    public Palette getPaletteMicro(int index);
 }

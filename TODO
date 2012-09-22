@@ -1,6 +1,5 @@
 TO DO
 -----
-- Add decoder for game palettes
 - Add decoder for background images
 - Display game start background screen
 - Create a bordered-window rendering service
@@ -9,3 +8,8 @@ TO DO
 - Create a button rendering service
 - Add a mouse input listener
 - ...
+
+IDEAS
+-----
+- When removing an alien from alien containment, play the rifle-shot sound
+  effect followed by the race appropriate death scream
