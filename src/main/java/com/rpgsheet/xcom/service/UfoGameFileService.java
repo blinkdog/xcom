@@ -1,5 +1,5 @@
 /*
- * XcomEditorImpl.java
+ * UfoGameFileService.java
  * Copyright 2012 Patrick Meade
  * 
  * This program is free software: you can redistribute it and/or modify
@@ -16,25 +16,13 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package com.rpgsheet.xcom;
+package com.rpgsheet.xcom.service;
 
-import com.rpgsheet.xcom.service.UfoGameFileService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
-import static com.rpgsheet.xcom.service.UfoGameFileService.UFO_BAT;
 import java.io.File;
 
-@Service("xcomEditor")
-public class XcomEditorImpl implements XcomEditor
+public interface UfoGameFileService
 {
-    @Override
-    public void run()
-    {
-        System.out.println("Hello, UFO!");
-        File ufoBat = ufoGameFileService.getGameFile(UFO_BAT);
-        System.out.println(UFO_BAT + ": " + ufoBat.getAbsolutePath());
-    }
+    public static final String UFO_BAT = "UFO.BAT";
     
-    @Autowired private UfoGameFileService ufoGameFileService;
+    public File getGameFile(String fileName);
 }

@@ -1,9 +1,7 @@
 TO DO
 -----
 - Add LWJGL and Slick2D libraries
-- Add property placeholder stanza to xcom.xml
-- Add xcom.properties with ufo.path property
-- Create service class to obtain File objects from UFO
 - Add decoder for game palettes
 - Add decoder for background images
+- Display game start background screen
 - ...
