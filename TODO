@@ -1,7 +1,11 @@
 TO DO
 -----
-- Add LWJGL and Slick2D libraries
 - Add decoder for game palettes
 - Add decoder for background images
 - Display game start background screen
+- Create a bordered-window rendering service
+- Add decoder for game text
+- Create a text rendering service
+- Create a button rendering service
+- Add a mouse input listener
 - ...
