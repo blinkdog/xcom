@@ -24,6 +24,7 @@ import com.rpgsheet.xcom.slick.Palette;
 import org.newdawn.slick.BasicGame;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
+import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -38,6 +39,25 @@ public class XcomEditorImpl extends BasicGame implements XcomEditor
     @Override
     public void init(GameContainer gc) throws SlickException
     {
+        // pre-load all of the resources
+        for(int i=0; i<UfoResourceService.NUM_PALETTE_FULL; i++) {
+            ufoResourceService.getPaletteFull(i);
+        }
+        for(int i=0; i<UfoResourceService.NUM_PALETTE_MICRO; i++) {
+            ufoResourceService.getPaletteMicro(i);
+        }
+//        for(int i=0; i<UfoResourceService.NUM_BACKGROUND; i++) {
+//            for(int j=0; j<UfoResourceService.NUM_PALETTE_FULL; j++) {
+//                ufoResourceService.getBackground(
+//                        i, ufoResourceService.getPaletteFull(j));
+//            }
+//        }
+//        for(int i=0; i<UfoResourceService.NUM_BACKGROUND; i++) {
+//            for(int j=0; j<UfoResourceService.NUM_PALETTE_MICRO; j++) {
+//                ufoResourceService.getBackground(
+//                        i, ufoResourceService.getPaletteMicro(j));
+//            }
+//        }
     }
 
     /**
@@ -54,7 +74,8 @@ public class XcomEditorImpl extends BasicGame implements XcomEditor
     @Override
     public void render(GameContainer gc, Graphics g) throws SlickException
     {
-        renderUfoPalettes(gc,g);
+//        renderUfoPalettes(gc,g);
+        renderUfoBackground(gc,g);
     }
     
     private void renderUfoPalettes(GameContainer gc, Graphics g) throws SlickException
@@ -88,5 +109,15 @@ public class XcomEditorImpl extends BasicGame implements XcomEditor
         }
     }
 
+    private void renderUfoBackground(GameContainer gc, Graphics g) throws SlickException
+    {
+        int DISPLAY_WIDTH = gc.getWidth();
+        int DISPLAY_HEIGHT = gc.getHeight();
+        Palette palette = ufoResourceService.getPaletteMicro(0);
+        Image background = ufoResourceService.getBackground(0, palette);
+        g.clear();
+        g.drawImage(background, 0, 0, DISPLAY_WIDTH, DISPLAY_HEIGHT, 0, 0, 320, 200);
+    }
+    
     @Autowired private UfoResourceService ufoResourceService;
 }

@@ -19,11 +19,15 @@
 package com.rpgsheet.xcom.service;
 
 import com.rpgsheet.xcom.slick.Palette;
+import org.newdawn.slick.Image;
 
 public interface UfoResourceService
 {
+    public static final int NUM_BACKGROUND = 17;
     public static final int NUM_PALETTE_FULL = 5;
     public static final int NUM_PALETTE_MICRO = 8;
+
+    public Image getBackground(int index, Palette palette);
     
     public Palette getPaletteFull(int index);
     public Palette getPaletteMicro(int index);

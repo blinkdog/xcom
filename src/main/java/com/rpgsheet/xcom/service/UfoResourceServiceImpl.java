@@ -19,20 +19,49 @@
 package com.rpgsheet.xcom.service;
 
 import com.rpgsheet.xcom.io.PaletteInputStream;
+import com.rpgsheet.xcom.io.ScrInputStream;
 import com.rpgsheet.xcom.slick.Palette;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
+import org.newdawn.slick.Image;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import static com.rpgsheet.xcom.service.UfoGameFileService.BACKPALS_DAT;
-import static com.rpgsheet.xcom.service.UfoGameFileService.PALETTES_DAT;
+import static com.rpgsheet.xcom.service.UfoGameFileService.*;
 
 @Service("ufoResourceService")
 public class UfoResourceServiceImpl implements UfoResourceService
 {
+    private static final String[] BACKGROUND_NAME = {
+        BACK01_SCR, BACK02_SCR, BACK03_SCR, BACK04_SCR,
+        BACK05_SCR, BACK06_SCR, BACK07_SCR, BACK08_SCR,
+        BACK09_SCR, BACK10_SCR, BACK11_SCR, BACK12_SCR,
+        BACK13_SCR, BACK14_SCR, BACK15_SCR, BACK16_SCR,
+        BACK17_SCR
+    };
+    
+    public Image getBackground(int index, Palette palette)
+    {
+        if(backgrounds == null) {
+            backgrounds = new HashMap<Integer,Map<Palette,Image>>();
+        }
+        Map<Palette,Image> imageMap = backgrounds.get(index);
+        if(imageMap == null) {
+            imageMap = new HashMap<Palette,Image>();
+            backgrounds.put(index, imageMap);
+        }
+        Image background = imageMap.get(palette);
+        if(background == null) {
+            background = readBackground(BACKGROUND_NAME[index], palette);
+            imageMap.put(palette, background);
+        }
+        return background;
+    }
+    
     @Override
     public Palette getPaletteFull(int index)
     {
@@ -85,9 +114,28 @@ public class UfoResourceServiceImpl implements UfoResourceService
         }
         
     }
+
+    private Image readBackground(String fileName, Palette palette)
+    {
+        Image background = null;
+
+        try {
+            File backgroundFile = ufoGameFileService.getGameFile(fileName);
+            FileInputStream fileInputStream = new FileInputStream(backgroundFile);
+            ScrInputStream scrInputStream = new ScrInputStream(fileInputStream);
+            background = scrInputStream.readImage(palette);
+        } catch(FileNotFoundException e) {
+            e.printStackTrace(System.err);
+        } catch(IOException e) {
+            e.printStackTrace(System.err);
+        }
+
+        return background;
+    }
     
     private Palette[] fullPalettes;
     private Palette[] microPalettes;
+    private Map<Integer,Map<Palette,Image>> backgrounds;
     
     @Autowired private UfoGameFileService ufoGameFileService;
 }

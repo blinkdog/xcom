@@ -1,15 +1,16 @@
 TO DO
 -----
-- Add decoder for background images
-- Display game start background screen
-- Create a bordered-window rendering service
+- Create a bordered background window rendering service
+- Create a button rendering service
 - Add decoder for game text
 - Create a text rendering service
-- Create a button rendering service
+- Change from BasicGame to some kind of state machine based game
+- Create a state that displays the language selection window
 - Add a mouse input listener
 - ...
 
 IDEAS
 -----
-- When removing an alien from alien containment, play the rifle-shot sound
-  effect followed by the race appropriate death scream
+- When removing an alien from alien containment, play the reload weapon sound,
+  followed by the rifle shot sound, followed by the appropriate death scream
+  for the race of the alien.
