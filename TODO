@@ -1,10 +1,10 @@
 TO DO
 -----
-- Create a bordered background window rendering service
 - Create a button rendering service
 - Add decoder for game text
 - Create a text rendering service
 - Change from BasicGame to some kind of state machine based game
+- Create a state that detects the classic game installation
 - Create a state that displays the language selection window
 - Add a mouse input listener
 - ...

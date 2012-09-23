@@ -21,6 +21,8 @@ package com.rpgsheet.xcom;
 import com.rpgsheet.xcom.io.PaletteInputStream;
 import com.rpgsheet.xcom.service.UfoResourceService;
 import com.rpgsheet.xcom.slick.Palette;
+import com.rpgsheet.xcom.window.SaveGameWindow;
+import com.rpgsheet.xcom.window.MainMenuWindow;
 import org.newdawn.slick.BasicGame;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
@@ -75,7 +77,9 @@ public class XcomEditorImpl extends BasicGame implements XcomEditor
     public void render(GameContainer gc, Graphics g) throws SlickException
     {
 //        renderUfoPalettes(gc,g);
-        renderUfoBackground(gc,g);
+//        renderUfoBackground(gc,g);
+        mainMenuWindow.renderTo(gc,g);
+//        gameLoadWindow.renderTo(gc,g);
     }
     
     private void renderUfoPalettes(GameContainer gc, Graphics g) throws SlickException
@@ -120,4 +124,6 @@ public class XcomEditorImpl extends BasicGame implements XcomEditor
     }
     
     @Autowired private UfoResourceService ufoResourceService;
+    @Autowired private MainMenuWindow mainMenuWindow;
+    @Autowired private SaveGameWindow gameLoadWindow;
 }
