@@ -1,6 +1,5 @@
 TO DO
 -----
-- Create a button rendering service
 - Add decoder for game text
 - Create a text rendering service
 - Change from BasicGame to some kind of state machine based game

@@ -40,7 +40,9 @@ public interface UfoGameFileService
     public static final String BACK16_SCR = "GEOGRAPH/BACK16.SCR";
     public static final String BACK17_SCR = "GEOGRAPH/BACK17.SCR";
     public static final String BACKPALS_DAT = "GEODATA/BACKPALS.DAT";
+    public static final String BIGLETS_DAT = "GEODATA/BIGLETS.DAT";
     public static final String PALETTES_DAT = "GEODATA/PALETTES.DAT";
+    public static final String SMALLSET_DAT = "GEODATA/SMALLSET.DAT";
     public static final String UFO_BAT = "UFO.BAT";
     
     public File getGameFile(String fileName);

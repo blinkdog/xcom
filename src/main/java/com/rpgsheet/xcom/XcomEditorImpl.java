@@ -18,11 +18,13 @@
 
 package com.rpgsheet.xcom;
 
+import com.rpgsheet.xcom.button.ButtonRenderer;
 import com.rpgsheet.xcom.io.PaletteInputStream;
 import com.rpgsheet.xcom.service.UfoResourceService;
 import com.rpgsheet.xcom.slick.Palette;
-import com.rpgsheet.xcom.window.SaveGameWindow;
+import com.rpgsheet.xcom.slick.Renderable;
 import com.rpgsheet.xcom.window.MainMenuWindow;
+import com.rpgsheet.xcom.window.SaveGameWindow;
 import org.newdawn.slick.BasicGame;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
@@ -60,6 +62,11 @@ public class XcomEditorImpl extends BasicGame implements XcomEditor
 //                        i, ufoResourceService.getPaletteMicro(j));
 //            }
 //        }
+        
+        Palette mainPalette = ufoResourceService.getPaletteFull(0);
+        newGameButton = new ButtonRenderer(mainPalette, 134, 64, 90, 256, 110);
+        loadGameButton = new ButtonRenderer(mainPalette, 134, 64, 118, 256, 138);
+        quitButton = new ButtonRenderer(mainPalette, 134, 64, 146, 256, 166);
     }
 
     /**
@@ -77,8 +84,14 @@ public class XcomEditorImpl extends BasicGame implements XcomEditor
     public void render(GameContainer gc, Graphics g) throws SlickException
     {
 //        renderUfoPalettes(gc,g);
+        
 //        renderUfoBackground(gc,g);
+        
         mainMenuWindow.renderTo(gc,g);
+        newGameButton.renderTo(gc, g);
+        loadGameButton.renderTo(gc, g);
+        quitButton.renderTo(gc, g);
+        
 //        gameLoadWindow.renderTo(gc,g);
     }
     
@@ -126,4 +139,8 @@ public class XcomEditorImpl extends BasicGame implements XcomEditor
     @Autowired private UfoResourceService ufoResourceService;
     @Autowired private MainMenuWindow mainMenuWindow;
     @Autowired private SaveGameWindow gameLoadWindow;
+    
+    private Renderable newGameButton;
+    private Renderable loadGameButton;
+    private Renderable quitButton;
 }
