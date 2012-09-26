@@ -18,8 +18,11 @@
 
 package com.rpgsheet.xcom.service;
 
+import com.rpgsheet.xcom.io.GlyphInputStream;
 import com.rpgsheet.xcom.io.PaletteInputStream;
 import com.rpgsheet.xcom.io.ScrInputStream;
+import com.rpgsheet.xcom.slick.Font;
+import com.rpgsheet.xcom.slick.Glyph;
 import com.rpgsheet.xcom.slick.Palette;
 import java.io.File;
 import java.io.FileInputStream;
@@ -32,6 +35,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import static com.rpgsheet.xcom.service.UfoGameFileService.*;
+import static com.rpgsheet.xcom.slick.Glyph.*;
 
 @Service("ufoResourceService")
 public class UfoResourceServiceImpl implements UfoResourceService
@@ -43,7 +47,8 @@ public class UfoResourceServiceImpl implements UfoResourceService
         BACK13_SCR, BACK14_SCR, BACK15_SCR, BACK16_SCR,
         BACK17_SCR
     };
-    
+
+    @Override
     public Image getBackground(int index, Palette palette)
     {
         if(backgrounds == null) {
@@ -60,6 +65,24 @@ public class UfoResourceServiceImpl implements UfoResourceService
             imageMap.put(palette, background);
         }
         return background;
+    }
+    
+    @Override
+    public Font getFontLarge()
+    {
+        if(fontLarge == null) {
+            readFontLarge();
+        }
+        return fontLarge;
+    }
+    
+    @Override
+    public Font getFontSmall()
+    {
+        if(fontSmall == null) {
+            readFontSmall();
+        }
+        return fontSmall;
     }
     
     @Override
@@ -132,7 +155,55 @@ public class UfoResourceServiceImpl implements UfoResourceService
 
         return background;
     }
+
+    private void readFontLarge()
+    {
+        File bigLetsDat = ufoGameFileService.getGameFile(BIGLETS_DAT);
+        int numGlyphs = 128;
+        if(bigLetsDat.length() == 44288) {
+            numGlyphs = 173;
+        }
+        Glyph[] glyphs = new Glyph[numGlyphs+1];
+        glyphs[0] = new Glyph(GLYPH_LARGE_WIDTH, GLYPH_LARGE_HEIGHT);
+        try {
+            FileInputStream fileInputStream = new FileInputStream(bigLetsDat);
+            GlyphInputStream glyphInputStream = new GlyphInputStream(fileInputStream);
+            for(int i=1; i<=numGlyphs; i++) {
+                glyphs[i] = glyphInputStream.readLargeGlyph();
+            }
+            fontLarge = new Font(glyphs, GLYPH_LARGE_WIDTH, GLYPH_LARGE_HEIGHT);
+        } catch(FileNotFoundException e) {
+            e.printStackTrace(System.err);
+        } catch(IOException e) {
+            e.printStackTrace(System.err);
+        }
+    }
     
+    private void readFontSmall()
+    {
+        File smallSetDat = ufoGameFileService.getGameFile(SMALLSET_DAT);
+        int numGlyphs = 128;
+        if(smallSetDat.length() == 12456) {
+            numGlyphs = 173;
+        }
+        Glyph[] glyphs = new Glyph[numGlyphs+1];
+        glyphs[0] = new Glyph(GLYPH_SMALL_WIDTH, GLYPH_SMALL_HEIGHT);
+        try {
+            FileInputStream fileInputStream = new FileInputStream(smallSetDat);
+            GlyphInputStream glyphInputStream = new GlyphInputStream(fileInputStream);
+            for(int i=1; i<=numGlyphs; i++) {
+                glyphs[i] = glyphInputStream.readSmallGlyph();
+            }
+            fontSmall = new Font(glyphs, GLYPH_SMALL_WIDTH, GLYPH_SMALL_HEIGHT);
+        } catch(FileNotFoundException e) {
+            e.printStackTrace(System.err);
+        } catch(IOException e) {
+            e.printStackTrace(System.err);
+        }
+    }
+    
+    private Font fontLarge;
+    private Font fontSmall;
     private Palette[] fullPalettes;
     private Palette[] microPalettes;
     private Map<Integer,Map<Palette,Image>> backgrounds;

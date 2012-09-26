@@ -1,11 +1,13 @@
 TO DO
 -----
-- Add decoder for game text
-- Create a text rendering service
 - Change from BasicGame to some kind of state machine based game
 - Create a state that detects the classic game installation
 - Create a state that displays the language selection window
 - Add a mouse input listener
+- Add option to allow buttons and text to be rendered with inverse colors
+  (useful when 'clicking' a button)
+- Add a sound sample decoder
+- Add capability to play decoded sound samples (SoundRenderer?)
 - ...
 
 IDEAS
