@@ -19,11 +19,8 @@
 package com.rpgsheet.xcom;
 
 import com.rpgsheet.xcom.service.UfoGameFileService;
-import java.awt.FileDialog;
-import java.awt.Frame;
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -52,29 +49,15 @@ public class PimpMyXcom implements Runnable
     {
         // create the Spring application context
         appContext = new ClassPathXmlApplicationContext("classpath:xcom.xml");
-        // load the saved properties for the application
-        Properties appProperties = loadApplicationProperties();
-        // if we can't load application properties, that's bad
-        if(appProperties == null) {
-            log.error("Unable to determine location of X-COM.");
-            return;
-        }
-        // otherwise we'll check to see that X-COM exists
-        String xcomPath = appProperties.getProperty("xcom.path");
-        File xcomDir = new File(xcomPath);
-        if(containsXcom(xcomDir) == false) {
-            openXcomPathDialog(appProperties);
-        }
-        // if don't know where X-COM is
-        xcomPath = appProperties.getProperty("xcom.path");
-        xcomDir = new File(xcomPath);
-        if(containsXcom(xcomDir) == false) {
-            log.error("Unable to locate X-COM");
+        // determine the location of X-COM
+        String ufoPath = getUfoPath();
+        if(ufoPath == null) {
+            log.error("Unable to determine location of X-COM");
             return;
         }
         // we know where X-COM is; so we tell the appropriate beans
         UfoGameFileService ufoGameFileService = appContext.getBean(UfoGameFileService.class);
-        ufoGameFileService.setUfoPath(xcomPath);
+        ufoGameFileService.setUfoPath(ufoPath);
         // create and run the PimpMyXcom application
         PimpMyXcom pimpMyXcom = new PimpMyXcom();
         pimpMyXcom.run();
@@ -93,6 +76,35 @@ public class PimpMyXcom implements Runnable
         } catch(SlickException e) {
             e.printStackTrace(System.err);
         }
+    }
+    
+    private static String getUfoPath()
+    {
+        // load the saved properties for the application
+        Properties appProperties = loadApplicationProperties();
+        // if we can't load application properties, that's bad
+        if(appProperties == null) {
+            log.error("Unable to load application properties.");
+            return null;
+        }
+        // otherwise we'll check to see that X-COM exists
+        String xcomPath = appProperties.getProperty("xcom.path");
+        File xcomDir = new File(xcomPath);
+        if(containsXcom(xcomDir) == false) {
+            // ask the user to tell us where X-COM is located
+            openXcomPathDialog(appProperties);
+            // if the user doesn't know where X-COM is
+            xcomPath = appProperties.getProperty("xcom.path");
+            xcomDir = new File(xcomPath);
+            if(containsXcom(xcomDir) == false) {
+                log.error("Specified path '{}' does not contain X-COM",
+                          xcomDir.getAbsolutePath());
+                return null;
+            }
+        }
+
+        // return the location of X-COM to the caller
+        return xcomDir.getAbsolutePath();
     }
     
     private static Properties loadApplicationProperties()
