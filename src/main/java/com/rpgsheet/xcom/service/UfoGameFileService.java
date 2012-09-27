@@ -46,4 +46,5 @@ public interface UfoGameFileService
     public static final String UFO_BAT = "UFO.BAT";
     
     public File getGameFile(String fileName);
+    public void setUfoPath(String ufoPath);
 }

@@ -31,6 +31,12 @@ public class UfoGameFileServiceImpl implements UfoGameFileService
         return new File(ufoPath, fileName);
     }
 
-    @Value("${ufo.path}")
+    @Override
+    public void setUfoPath(String ufoPath)
+    {
+        this.ufoPath = ufoPath;
+    }
+    
+//    @Value("${ufo.path}")
     private String ufoPath;
 }

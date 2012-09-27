@@ -26,6 +26,9 @@
 
     <context:component-scan base-package="com.rpgsheet.xcom"/>
     
-    <context:property-placeholder location="classpath:xcom-test.properties"/>
+    <!--
+        Not really that important now
+        <context:property-placeholder location="classpath:xcom.properties"/>
+    -->
 
 </beans>

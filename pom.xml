@@ -41,6 +41,7 @@
     </repositories>
 
     <properties>
+        <org.slf4j.version>1.6.6</org.slf4j.version>
         <org.springframework.version>3.1.2.RELEASE</org.springframework.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
@@ -70,6 +71,16 @@
             <groupId>org.lwjgl.lwjgl</groupId>
             <artifactId>lwjgl</artifactId>
             <version>2.8.4</version>
+        </dependency>
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+            <version>${org.slf4j.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-simple</artifactId>
+            <version>${org.slf4j.version}</version>
         </dependency>
         <dependency>
             <groupId>org.springframework</groupId>
