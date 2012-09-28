@@ -20,8 +20,11 @@ package com.rpgsheet.xcom.state;
 
 import com.rpgsheet.xcom.service.UfoResourceService;
 import com.rpgsheet.xcom.render.Renderable;
+import com.rpgsheet.xcom.render.Window;
+import com.rpgsheet.xcom.slick.Palette;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
+import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
@@ -45,7 +48,11 @@ public class GameLoadState extends BasicGameState
     public void init(GameContainer gc, StateBasedGame sbg)
             throws SlickException
     {
-        // there is nothing to init
+        Palette mainPalette = ufoResourceService.getPaletteFull(0);
+        Palette imagePalette = ufoResourceService.getPaletteMicro(6);
+        Image background = ufoResourceService.getBackground(0, imagePalette);
+        
+        saveGameWindow = new Window(0, 0, 319, 199, mainPalette, 134, background);
     }
 
     public void render(GameContainer gc, StateBasedGame sbg, Graphics g)
@@ -60,6 +67,7 @@ public class GameLoadState extends BasicGameState
         // there is nothing to update
     }
     
-    @Autowired private Renderable saveGameWindow;
+    private Renderable saveGameWindow;
+    
     @Autowired private UfoResourceService ufoResourceService;
 }

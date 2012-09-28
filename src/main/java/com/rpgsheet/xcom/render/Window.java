@@ -24,65 +24,23 @@ import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 
-abstract public class Window implements Renderable
+public class Window implements Renderable
 {
-    /**
-     * Prepare the resources to be used by the Window. Subclasses
-     * are expected to implement this and fill in the protected fields
-     * listed immediately below. Review other concrete subclasses for
-     * an example of might is expected.
-     */
-    abstract protected void prepareResources();
-    
-    /**
-     * The background image of the Window
-     */
-    protected Image background;
-    
-    /**
-     * The index of a color in the palette. This should be the brightest
-     * color of the border (the color of the bright middle line)
-     */
-    protected int borderIndex;
-    
-    /**
-     * The palette to use when drawing the window border.
-     */
-    protected Palette palette;
-    
-    /**
-     * The x-coordinate of the left side of the window in classic X-COM
-     * resolution (0 to 320)
-     */
-    protected float x1;
-    
-    /**
-     * The y-coordinate of the top of the window in classic X-COM
-     * resolution (0 to 200)
-     */
-    protected float y1;
-    
-    /**
-     * The x-coordinate of the right side of the window in classic X-COM
-     * resolution (0 to 320)
-     */
-    protected float x2;
-    
-    /**
-     * The y-coordinate of the bottom of the window in classic X-COM
-     * resolution (0 to 200)
-     */
-    protected float y2;
+    public Window(float x1, float y1, float x2, float y2,
+                  Palette palette, int borderColor, Image background)
+    {
+        this.background = background;
+        this.borderColor = borderColor;
+        this.palette = palette;
+        this.x1 = x1;
+        this.y1 = y1;
+        this.x2 = x2;
+        this.y2 = y2;
+    }
     
     @Override
     public void render(GameContainer gc, Graphics g)
     {
-        // prepare the resources if needed
-        if(resourcesPrepared == false) {
-            prepareResources();
-            resourcesPrepared = true;
-        }
-        
         // do a little math... make a little love... get down tonight!
         final float DISPLAY_WIDTH = gc.getWidth();
         final float DISPLAY_HEIGHT = gc.getHeight();
@@ -94,8 +52,8 @@ abstract public class Window implements Renderable
         float dy1 = y1*yScale;
         float dx2 = x2*xScale;
         float dy2 = y2*yScale;
-        float dw = dx2-dx1;
-        float dh = dy2-dy1;
+        float dw = ((x2-x1)+1)*xScale;
+        float dh = ((y2-y1)+1)*yScale;
         
         // paint the whole background magic pink, just so we can be sure
         // that we filled it all in afterwards
@@ -104,7 +62,7 @@ abstract public class Window implements Renderable
 
         // paint the border lines
         for(int i=0; i<5; i++) {
-            int colorIndex = borderIndex+Math.abs(2-i);
+            int colorIndex = borderColor+Math.abs(2-i);
             g.setColor(palette.getColor(colorIndex));
             g.fillRect(dx1+(xScale*i), dy1+(yScale*i), dw-(xScale*i*2), dh-(yScale*i*2));
         }
@@ -112,11 +70,18 @@ abstract public class Window implements Renderable
         // draw the background image into place
         g.drawImage(
             background,
-            dx1+(xScale*5), dy1+(yScale*5), dx2-(xScale*5), dy2-(yScale*5),
-            x1+5, y1+5, x2-5, y2-5);
+            dx1+(xScale*5), dy1+(yScale*5), dx2-(xScale*4), dy2-(yScale*4),
+            x1+5, y1+5, x2-4, y2-4);
     }
-    
+
+    // TODO: Remove this MAGIC_PINK thing
     private static final Color MAGIC_PINK = new Color(255, 0, 255);
-    
-    private boolean resourcesPrepared;
+
+    private Image background;
+    private int borderColor;
+    private Palette palette;
+    private float x1;
+    private float y1;
+    private float x2;
+    private float y2;
 }

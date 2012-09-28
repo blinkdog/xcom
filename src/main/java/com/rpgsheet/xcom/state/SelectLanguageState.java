@@ -23,8 +23,10 @@ import com.rpgsheet.xcom.service.UfoResourceService;
 import com.rpgsheet.xcom.slick.Font;
 import com.rpgsheet.xcom.slick.Palette;
 import com.rpgsheet.xcom.render.Renderable;
+import com.rpgsheet.xcom.render.Window;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
+import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
@@ -48,12 +50,16 @@ public class SelectLanguageState extends BasicGameState
     public void init(GameContainer gc, StateBasedGame sbg)
             throws SlickException
     {
-        Palette mainPalette = ufoResourceService.getPaletteFull(0);
         Font smallFont = ufoResourceService.getFontSmall();
+        Palette imagePalette = ufoResourceService.getPaletteMicro(0);
+        Palette mainPalette = ufoResourceService.getPaletteFull(0);
+        Image background = ufoResourceService.getBackground(0, imagePalette);
 
         englishButton = new Button(64, 90, 255, 109, mainPalette, 134, smallFont, 134, "ENGLISH");
         germanButton = new Button(64, 118, 255, 137, mainPalette, 134, smallFont, 134, "DEUTSCHE");
         frenchButton = new Button(64, 146, 255, 165, mainPalette, 134, smallFont, 134, "FRANCAIS");
+        
+        mainMenuWindow = new Window(32, 20, 287, 179, mainPalette, 134, background);
     }
 
     public void render(GameContainer gc, StateBasedGame sbg, Graphics g)
@@ -71,10 +77,10 @@ public class SelectLanguageState extends BasicGameState
         // there is nothing to update
     }
     
+    private Renderable mainMenuWindow;
     private Renderable englishButton;
     private Renderable germanButton;
     private Renderable frenchButton;
 
-    @Autowired private Renderable mainMenuWindow;
     @Autowired private UfoResourceService ufoResourceService;
 }

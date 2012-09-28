@@ -24,8 +24,10 @@ import com.rpgsheet.xcom.slick.Font;
 import com.rpgsheet.xcom.slick.Palette;
 import com.rpgsheet.xcom.render.Renderable;
 import com.rpgsheet.xcom.render.Label;
+import com.rpgsheet.xcom.render.Window;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
+import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
@@ -51,7 +53,9 @@ public class MainMenuState extends BasicGameState
     {
         Font largeFont = ufoResourceService.getFontLarge();
         Font smallFont = ufoResourceService.getFontSmall();
+        Palette imagePalette = ufoResourceService.getPaletteMicro(0);
         Palette mainPalette = ufoResourceService.getPaletteFull(0);
+        Image background = ufoResourceService.getBackground(0, imagePalette);
         
         languageButton = new Button(64, 90, 255, 109, mainPalette, 134, smallFont, 134, "Select Language");
         loadGameButton = new Button(64, 118, 255, 137, mainPalette, 134, smallFont, 134, "Load Saved Game");
@@ -59,6 +63,8 @@ public class MainMenuState extends BasicGameState
         
         ufoTitle = new Label(largeFont, mainPalette, 139, 0, 145, 45, "UFO");
         enemyUnknownSubtitle = new Label(smallFont, mainPalette, 139, -1, 127, 61, "Enemy Unknown");
+        
+        mainMenuWindow = new Window(32, 20, 287, 179, mainPalette, 134, background);
     }
 
     public void render(GameContainer gc, StateBasedGame sbg, Graphics g)
@@ -78,12 +84,12 @@ public class MainMenuState extends BasicGameState
         // there is nothing to update
     }
     
+    private Renderable mainMenuWindow;
     private Renderable languageButton;
     private Renderable loadGameButton;
     private Renderable quitButton;
     private Renderable ufoTitle;
     private Renderable enemyUnknownSubtitle;
 
-    @Autowired private Renderable mainMenuWindow;
     @Autowired private UfoResourceService ufoResourceService;
 }
