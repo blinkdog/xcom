@@ -34,6 +34,7 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import static com.rpgsheet.xcom.service.UfoGameFileService.*;
+import static com.rpgsheet.xcom.type.Language.ENGLISH;
 
 public class PimpMyXcom implements Runnable
 {
@@ -226,7 +227,7 @@ public class PimpMyXcom implements Runnable
     }
     
     private static final String APPLICATION_COMMENT = "PimpMyXcom - Copyright 2012 Patrick Meade";
-    private static final String APPLICATION_DEFAULT_LANG = "English";
+    private static final String APPLICATION_DEFAULT_LANG = ENGLISH.name();
     private static final String APPLICATION_DEFAULT_PATH = "/path/to/xcom";
     private static final String APPLICATION_PROPERTIES_FILE = ".pimpMyXcom";
     private static final String SYSTEM_PROPERTY_USER_HOME = "user.home";

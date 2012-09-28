@@ -1,5 +1,5 @@
 /*
- * UfoResourceService.java
+ * TextResource.java
  * Copyright 2012 Patrick Meade
  * 
  * This program is free software: you can redistribute it and/or modify
@@ -18,25 +18,9 @@
 
 package com.rpgsheet.xcom.service;
 
-import com.rpgsheet.xcom.slick.Font;
-import com.rpgsheet.xcom.slick.Palette;
-import com.rpgsheet.xcom.type.Language;
-import org.newdawn.slick.Image;
-
-public interface UfoResourceService
+public interface TextResource
 {
-    public static final int NUM_BACKGROUND = 17;
-    public static final int NUM_PALETTE_FULL = 5;
-    public static final int NUM_PALETTE_MICRO = 8;
-
-    public Image getBackground(int index, Palette palette);
-
-    public Font getFontLarge();
-    public Font getFontSmall();
-
-    public Palette getPaletteFull(int index);
-    public Palette getPaletteMicro(int index);
-
-    public String[] getTextGeoscape(Language language);
-    public String[] getTextTactical(Language language);
+    public static final int LOAD_SAVED_GAME = 781;
+    public static final int QUIT = 801;
+    public static final int UFO_ENEMY_UNKNOWN = 779;
 }

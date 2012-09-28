@@ -1,12 +1,12 @@
 TO DO
 -----
-- Add a decoder for the X-COM resource bundles (ENGLISH, FRENCH, GERMAN)
 - Add a mouse input listener to language selection state
 - Add option to allow buttons and text to be rendered with inverse colors
   (useful when 'clicking' a button)
 - Add a sound sample decoder
 - Add capability to play decoded sound samples (SoundRenderer?)
-- Add a mouse input handler to the language selection state
+- Modify Label to allow centering based on label text width
+-- Main menu does not look right with German version of "Enemy Unknown"
 - Add a mouse input handler to the game loading state
 - Add a mouse input handler to quit the editor
 - Implement the game load state; display the buttons, game comments, game time

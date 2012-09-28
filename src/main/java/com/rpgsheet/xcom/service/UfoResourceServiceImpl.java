@@ -24,6 +24,7 @@ import com.rpgsheet.xcom.io.ScrInputStream;
 import com.rpgsheet.xcom.slick.Font;
 import com.rpgsheet.xcom.slick.Glyph;
 import com.rpgsheet.xcom.slick.Palette;
+import com.rpgsheet.xcom.type.Language;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -36,6 +37,8 @@ import org.springframework.stereotype.Service;
 
 import static com.rpgsheet.xcom.service.UfoGameFileService.*;
 import static com.rpgsheet.xcom.slick.Glyph.*;
+import static com.rpgsheet.xcom.type.Language.*;
+import java.io.DataInputStream;
 
 @Service("ufoResourceService")
 public class UfoResourceServiceImpl implements UfoResourceService
@@ -102,6 +105,74 @@ public class UfoResourceServiceImpl implements UfoResourceService
         }
         return microPalettes[index];
     }
+
+    @Override
+    public String[] getTextGeoscape(Language language)
+    {
+        String[] textResources = null;
+
+        // default to English
+        if(language == null) { language = ENGLISH; }
+
+        // if the user requested english
+        if(language == ENGLISH) {
+            if(textGeoscapeEnglish == null) {
+                textGeoscapeEnglish = readText(ENGLISH_DAT);
+            }
+            textResources = textGeoscapeEnglish;
+        }
+        // if the user requested french
+        if(language == FRENCH) {
+            if(textGeoscapeFrench == null) {
+                textGeoscapeFrench = readText(FRENCH_DAT);
+            }
+            textResources = textGeoscapeFrench;
+        }
+        // if the user requested german
+        if(language == GERMAN) {
+            if(textGeoscapeGerman == null) {
+                textGeoscapeGerman = readText(GERMAN_DAT);
+            }
+            textResources = textGeoscapeGerman;
+        }
+        
+        return textResources;
+    }
+
+    @Override
+    public String[] getTextTactical(Language language)
+    {
+        String[] textResources = null;
+
+        // default to English
+        if(language == null) { language = ENGLISH; }
+
+        // if the user requested english
+        if(language == ENGLISH) {
+            if(textTacticalEnglish == null) {
+                textTacticalEnglish = readText(ENGLISH2_DAT);
+            }
+            textResources = textTacticalEnglish;
+        }
+        // if the user requested french
+        if(language == FRENCH) {
+            if(textTacticalFrench == null) {
+                textTacticalFrench = readText(FRENCH2_DAT);
+            }
+            textResources = textTacticalFrench;
+        }
+        // if the user requested german
+        if(language == GERMAN) {
+            if(textTacticalGerman == null) {
+                textTacticalGerman = readText(GERMAN2_DAT);
+            }
+            textResources = textTacticalGerman;
+        }
+        
+        return textResources;
+    }
+    
+    // ----------------------------------------------------------------
     
     private void readPalettes()
     {
@@ -202,11 +273,36 @@ public class UfoResourceServiceImpl implements UfoResourceService
         }
     }
     
+    private String[] readText(String textFileName)
+    {
+        File textFile = ufoGameFileService.getGameFile(textFileName);
+        byte[] textBytes = new byte[(int)textFile.length()];
+        try {
+            FileInputStream fileInputStream = new FileInputStream(textFile);
+            DataInputStream dataInputStream = new DataInputStream(fileInputStream);
+            dataInputStream.readFully(textBytes);
+        } catch(FileNotFoundException e) {
+            textBytes = new byte[0];
+            e.printStackTrace(System.err);
+        } catch(IOException e) {
+            textBytes = new byte[0];
+            e.printStackTrace(System.err);
+        }
+        String text = new String(textBytes);
+        return text.split("\u0000");
+    }
+    
     private Font fontLarge;
     private Font fontSmall;
     private Palette[] fullPalettes;
     private Palette[] microPalettes;
     private Map<Integer,Map<Palette,Image>> backgrounds;
+    private String[] textGeoscapeEnglish;
+    private String[] textGeoscapeFrench;
+    private String[] textGeoscapeGerman;
+    private String[] textTacticalEnglish;
+    private String[] textTacticalFrench;
+    private String[] textTacticalGerman;
     
     @Autowired private UfoGameFileService ufoGameFileService;
 }

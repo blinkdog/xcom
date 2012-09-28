@@ -18,6 +18,7 @@
 
 package com.rpgsheet.xcom;
 
+import com.rpgsheet.xcom.type.Language;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -69,5 +70,11 @@ public class PimpMyXcomTest
     public void testXcomEditorBean() {
         XcomEditor xcomEditor = appContext.getBean(XcomEditor.class);
         assertNotNull(xcomEditor);
+    }
+    
+    @Test
+    public void testEnglishLanguageString() {
+        assertEquals("ENGLISH", Language.ENGLISH.toString());
+        assertEquals("ENGLISH", Language.ENGLISH.name());
     }
 }
