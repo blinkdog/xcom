@@ -35,8 +35,9 @@ public class XcomEditorImpl extends StateBasedGame implements XcomEditor
     @Override
     public void initStatesList(GameContainer gc) throws SlickException
     {
-        this.addState(mainMenuState);
         // it seems the first state is the default state
+        this.addState(selectLanguageState);
+        this.addState(mainMenuState);
         this.addState(displayUfoBackgroundState);
         this.addState(displayUfoPalettesState);
         this.addState(gameLoadState);
@@ -46,4 +47,5 @@ public class XcomEditorImpl extends StateBasedGame implements XcomEditor
     @Autowired private GameState displayUfoPalettesState;
     @Autowired private GameState gameLoadState;
     @Autowired private GameState mainMenuState;
+    @Autowired private GameState selectLanguageState;
 }

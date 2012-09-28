@@ -1,5 +1,5 @@
 /*
- * WindowRenderer.java
+ * Window.java
  * Copyright 2012 Patrick Meade
  * 
  * This program is free software: you can redistribute it and/or modify
@@ -16,19 +16,18 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package com.rpgsheet.xcom.window;
+package com.rpgsheet.xcom.render;
 
 import com.rpgsheet.xcom.slick.Palette;
-import com.rpgsheet.xcom.slick.Renderable;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 
-abstract public class WindowRenderer implements Renderable
+abstract public class Window implements Renderable
 {
     /**
-     * Prepare the resources to be used by the WindowRenderer. Subclasses
+     * Prepare the resources to be used by the Window. Subclasses
      * are expected to implement this and fill in the protected fields
      * listed immediately below. Review other concrete subclasses for
      * an example of might is expected.
@@ -76,7 +75,7 @@ abstract public class WindowRenderer implements Renderable
     protected float y2;
     
     @Override
-    public void renderTo(GameContainer gc, Graphics g)
+    public void render(GameContainer gc, Graphics g)
     {
         // prepare the resources if needed
         if(resourcesPrepared == false) {
@@ -117,8 +116,6 @@ abstract public class WindowRenderer implements Renderable
             x1+5, y1+5, x2-5, y2-5);
     }
     
-    private static final float XCOM_WIDTH = 320;
-    private static final float XCOM_HEIGHT = 200;
     private static final Color MAGIC_PINK = new Color(255, 0, 255);
     
     private boolean resourcesPrepared;

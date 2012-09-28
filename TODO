@@ -1,7 +1,9 @@
 TO DO
 -----
-- Create a state that displays the language selection window
-- Add a mouse input listener
+- Refactor Window subclasses toward constructor initalization and
+  away from dependency injection
+- Add a decoder for the X-COM resource bundles (ENGLISH, FRENCH, GERMAN)
+- Add a mouse input listener to language selection state
 - Add option to allow buttons and text to be rendered with inverse colors
   (useful when 'clicking' a button)
 - Add a sound sample decoder
@@ -20,3 +22,9 @@ IDEAS
 - When removing an alien from alien containment, play the reload weapon sound,
   followed by the rifle shot sound, followed by the appropriate death scream
   for the race of the alien.
+
+LOW PRIORITY TASKS
+------------------
+- Refactor all of the PimpMyXcom static method nonsense (the stuff that
+  handles the application properties) into a nice set of configuration
+  classes; an entity, a DAO, a service, etc. in com.rpgsheet.xcom.config

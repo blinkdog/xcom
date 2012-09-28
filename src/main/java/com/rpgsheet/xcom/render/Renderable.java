@@ -16,12 +16,15 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package com.rpgsheet.xcom.slick;
+package com.rpgsheet.xcom.render;
 
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 
 public interface Renderable
 {
-    public void renderTo(GameContainer gc, Graphics g);
+    public static final float XCOM_WIDTH = 320;
+    public static final float XCOM_HEIGHT = 200;
+    
+    public void render(GameContainer gc, Graphics g);
 }

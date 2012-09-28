@@ -1,5 +1,5 @@
 /*
- * SaveGameWindow.java
+ * MainMenuWindow.java
  * Copyright 2012 Patrick Meade
  * 
  * This program is free software: you can redistribute it and/or modify
@@ -16,27 +16,27 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package com.rpgsheet.xcom.window;
+package com.rpgsheet.xcom.render;
 
 import com.rpgsheet.xcom.service.UfoResourceService;
 import com.rpgsheet.xcom.slick.Palette;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-@Service("saveGameWindow")
-public class SaveGameWindow extends WindowRenderer
+@Service("mainMenuWindow")
+public class MainMenuWindow extends Window
 {
     @Override
     protected void prepareResources()
     {
         palette = ufoResourceService.getPaletteFull(0);
-        Palette imagePalette = ufoResourceService.getPaletteMicro(6);
+        Palette imagePalette = ufoResourceService.getPaletteMicro(0);
         background = ufoResourceService.getBackground(0, imagePalette);
         borderIndex = 134;
-        x1 = 0;
-        y1 = 0;
-        x2 = 320;
-        y2 = 200;
+        x1 = 32;
+        y1 = 20;
+        x2 = 288;
+        y2 = 180;
     }
     
     @Autowired private UfoResourceService ufoResourceService;

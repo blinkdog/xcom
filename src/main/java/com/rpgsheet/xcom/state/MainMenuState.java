@@ -18,12 +18,12 @@
 
 package com.rpgsheet.xcom.state;
 
-import com.rpgsheet.xcom.button.ButtonRenderer;
+import com.rpgsheet.xcom.render.Button;
 import com.rpgsheet.xcom.service.UfoResourceService;
 import com.rpgsheet.xcom.slick.Font;
 import com.rpgsheet.xcom.slick.Palette;
-import com.rpgsheet.xcom.slick.Renderable;
-import com.rpgsheet.xcom.text.TextRenderer;
+import com.rpgsheet.xcom.render.Renderable;
+import com.rpgsheet.xcom.render.Label;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.SlickException;
@@ -49,26 +49,27 @@ public class MainMenuState extends BasicGameState
     public void init(GameContainer gc, StateBasedGame sbg)
             throws SlickException
     {
-        Palette mainPalette = ufoResourceService.getPaletteFull(0);
-        languageButton = new ButtonRenderer(mainPalette, 134, 64, 90, 256, 110);
-        loadGameButton = new ButtonRenderer(mainPalette, 134, 64, 118, 256, 138);
-        quitButton = new ButtonRenderer(mainPalette, 134, 64, 146, 256, 166);
-        
         Font largeFont = ufoResourceService.getFontLarge();
-        ufoTitle = new TextRenderer(largeFont, mainPalette, 139, 0, 145, 45, "UFO");
         Font smallFont = ufoResourceService.getFontSmall();
-        enemyUnknownSubtitle = new TextRenderer(smallFont, mainPalette, 139, -1, 127, 61, "Enemy Unknown");
+        Palette mainPalette = ufoResourceService.getPaletteFull(0);
+        
+        languageButton = new Button(64, 90, 255, 109, mainPalette, 134, smallFont, 134, "Select Language");
+        loadGameButton = new Button(64, 118, 255, 137, mainPalette, 134, smallFont, 134, "Load Saved Game");
+        quitButton = new Button(64, 146, 255, 165, mainPalette, 134, smallFont, 134, "Quit");
+        
+        ufoTitle = new Label(largeFont, mainPalette, 139, 0, 145, 45, "UFO");
+        enemyUnknownSubtitle = new Label(smallFont, mainPalette, 139, -1, 127, 61, "Enemy Unknown");
     }
 
     public void render(GameContainer gc, StateBasedGame sbg, Graphics g)
             throws SlickException
     {
-        mainMenuWindow.renderTo(gc,g);
-        languageButton.renderTo(gc, g);
-        loadGameButton.renderTo(gc, g);
-        quitButton.renderTo(gc, g);
-        ufoTitle.renderTo(gc, g);
-        enemyUnknownSubtitle.renderTo(gc, g);
+        mainMenuWindow.render(gc,g);
+        languageButton.render(gc, g);
+        loadGameButton.render(gc, g);
+        quitButton.render(gc, g);
+        ufoTitle.render(gc, g);
+        enemyUnknownSubtitle.render(gc, g);
     }
 
     public void update(GameContainer gc, StateBasedGame sbg, int timeDelta)

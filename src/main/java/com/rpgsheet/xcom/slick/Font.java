@@ -52,6 +52,17 @@ public class Font
         return glyphString;
     }
     
+    public int getTextWidth(String text, int spacing)
+    {
+        int width = 0;
+        Glyph[] textGlyphs = toGlyphs(text);
+        for(int i=0; i<textGlyphs.length; i++) {
+            width += textGlyphs[i].getWidth();
+            width += spacing;
+        }
+        return width;
+    }
+    
     private int glyphHeight;
     private int glyphWidth;
     

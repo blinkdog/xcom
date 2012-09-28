@@ -1,5 +1,5 @@
 /*
- * TextRenderer.java
+ * Label.java
  * Copyright 2012 Patrick Meade
  * 
  * This program is free software: you can redistribute it and/or modify
@@ -16,25 +16,19 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package com.rpgsheet.xcom.text;
+package com.rpgsheet.xcom.render;
 
 import com.rpgsheet.xcom.slick.Font;
 import com.rpgsheet.xcom.slick.Glyph;
 import com.rpgsheet.xcom.slick.Palette;
-import com.rpgsheet.xcom.slick.Renderable;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 
-import static com.rpgsheet.xcom.io.GlyphInputStream.*;
-
-public class TextRenderer implements Renderable
+public class Label implements Renderable
 {
-    public TextRenderer(Font font,
-                        Palette palette, int colorIndex,
-                        int spacing,
-                        float x1, float y1,
-                        String text)
+    public Label(Font font, Palette palette, int colorIndex, int spacing,
+                 float x1, float y1, String text)
     {
         this.font = font;
         this.palette = palette;
@@ -46,7 +40,7 @@ public class TextRenderer implements Renderable
     }
     
     @Override
-    public void renderTo(GameContainer gc, Graphics g)
+    public void render(GameContainer gc, Graphics g)
     {
         // do a little math... make a little love... get down tonight!
         final float DISPLAY_WIDTH = gc.getWidth();
@@ -75,9 +69,6 @@ public class TextRenderer implements Renderable
             dx1 += (width * xScale);
         }
     }
-    
-    private static final float XCOM_WIDTH = 320;
-    private static final float XCOM_HEIGHT = 200;
     
     private Font font;
     private Palette palette;
