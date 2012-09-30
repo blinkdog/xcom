@@ -22,3 +22,32 @@ the pattern of other artifacts in other repositories. The version (274) comes
 from Slick2D itself. Upon starting up, it outputs the following message:
 
     INFO:Slick Build #274
+
+
+--------------------------------------------
+Small Font and Spacing
+--------------------------------------------
+X-COM has two fonts, large and small. The large glyphs tend to take up their
+entire width and are drawn next to each other with no pixels in-between. The
+small fonts tend to get drawn directly upon the last column of pixels from
+the previous glyph; the next letter is drawn on top of the shadow of the
+previous letter.
+
+So far I've seen two exceptions:
+
+1. There is no glyph for the "space" character, although the game does use
+   consistent spacing (large 10px, small 5px) where a "space" would be. In
+   my code, I have defined a "space" glyph into existence; a wholly transparent
+   mask defined to be N pixels wide. So far, this works well.
+
+2. In the small font, there is an uppercase 'L' character. In screen captures
+   from the actual game, it looks like the letters following the 'L' are not
+   only drawn on the shadow of L, but yet one further pixel to the left; they
+   are actually drawn upon the bottom line of the L itself.
+
+   Thus far, I haven't done anything about it. This makes it slightly
+   inconsistent from X-COM. I have been weighing the desire to stay faithful to
+   the way X-COM draws everything and the desire to keep the code clean/simple.
+   I've already defined a width for ' ' (the space character), so doing it for
+   the uppercase 'L' in the small font isn't *that* big a step, but then again
+   the spacing for it does not really bother me enough to change it right now.

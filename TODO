@@ -1,12 +1,12 @@
 TO DO
 -----
+- Modify Label to allow centering based on label text width
+-- Main menu does not look right with German version of "Enemy Unknown"
 - Add a mouse input listener to language selection state
 - Add option to allow buttons and text to be rendered with inverse colors
   (useful when 'clicking' a button)
 - Add a sound sample decoder
 - Add capability to play decoded sound samples (SoundRenderer?)
-- Modify Label to allow centering based on label text width
--- Main menu does not look right with German version of "Enemy Unknown"
 - Add a mouse input handler to the game loading state
 - Add a mouse input handler to quit the editor
 - Implement the game load state; display the buttons, game comments, game time
@@ -26,3 +26,6 @@ LOW PRIORITY TASKS
 - Refactor all of the PimpMyXcom static method nonsense (the stuff that
   handles the application properties) into a nice set of configuration
   classes; an entity, a DAO, a service, etc. in com.rpgsheet.xcom.config
+
+- Handle the spacing of the uppercase 'L' in the small font so that it better
+  matches real screen captures from X-COM.
