@@ -19,12 +19,13 @@
 package com.rpgsheet.xcom.state;
 
 import com.rpgsheet.xcom.render.Button;
+import com.rpgsheet.xcom.render.Label;
+import com.rpgsheet.xcom.render.Renderable;
+import com.rpgsheet.xcom.render.Window;
 import com.rpgsheet.xcom.service.UfoResourceService;
 import com.rpgsheet.xcom.slick.Font;
 import com.rpgsheet.xcom.slick.Palette;
-import com.rpgsheet.xcom.render.Renderable;
-import com.rpgsheet.xcom.render.Label;
-import com.rpgsheet.xcom.render.Window;
+import com.rpgsheet.xcom.type.LabelStyle;
 import com.rpgsheet.xcom.type.Language;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
@@ -60,18 +61,23 @@ public class MainMenuState extends BasicGameState
         Palette mainPalette = ufoResourceService.getPaletteFull(0);
         Image background = ufoResourceService.getBackground(0, imagePalette);
 
-        String[] text = ufoResourceService.getTextGeoscape(Language.GERMAN);
-        String loadSavedGame = text[LOAD_SAVED_GAME];
-        String quit = text[QUIT];
-        String title = text[UFO_ENEMY_UNKNOWN];
+        String[] appText = ufoResourceService.getTextApplication(Language.GERMAN);
+        String[] geoText = ufoResourceService.getTextGeoscape(Language.GERMAN);
+        String selectLanguage = appText[SELECT_LANGUAGE];
+        String loadSavedGame = geoText[LOAD_SAVED_GAME];
+        String quit = geoText[QUIT];
+        String title = geoText[UFO_ENEMY_UNKNOWN];
         String[] titleSplit = title.split("\u0002");
         
-        languageButton = new Button(64, 90, 255, 109, mainPalette, 134, smallFont, 134, "Select Language");
+        languageButton = new Button(64, 90, 255, 109, mainPalette, 134, smallFont, 134, selectLanguage);
         loadGameButton = new Button(64, 118, 255, 137, mainPalette, 134, smallFont, 134, loadSavedGame);
         quitButton = new Button(64, 146, 255, 165, mainPalette, 134, smallFont, 134, quit);
         
         ufoTitle = new Label(largeFont, mainPalette, 139, 0, 145, 45, titleSplit[0]);
-        enemyUnknownSubtitle = new Label(smallFont, mainPalette, 139, -1, 127, 61, titleSplit[1]);
+        enemyUnknownSubtitle = new Label(
+            smallFont, mainPalette, 139, -1,
+            LabelStyle.SINGLE_LINE_CENTER,
+            0, 61, 319, 199, titleSplit[1]);
         
         mainMenuWindow = new Window(32, 20, 287, 179, mainPalette, 134, background);
     }

@@ -20,7 +20,33 @@ package com.rpgsheet.xcom.service;
 
 public interface TextResource
 {
+    // Application Text Indexes
+    public static final int SELECT_LANGUAGE = 0;
+    
+    // Geoscape Text Indexes
     public static final int LOAD_SAVED_GAME = 781;
     public static final int QUIT = 801;
     public static final int UFO_ENEMY_UNKNOWN = 779;
+    
+    // ----------------------------------------------------------------
+    
+    public static final String[] TEXT_APPLICATION_ENGLISH = {
+        "Select Language"               // 0: Select Language
+    };
+    
+    /**
+     * Translations provided by Google Translate.
+     * @see http://translate.google.com/#en/fr/
+     */
+    public static final String[] TEXT_APPLICATION_FRENCH = {
+        "Sélectionnez la langue"        // 0: Select Language
+    };
+
+    /**
+     * Translations provided by Google Translate.
+     * @see http://translate.google.com/#en/de/
+     */
+    public static final String[] TEXT_APPLICATION_GERMAN = {
+        "Sprache auswählen"             // 0: Select Language
+    };
 }

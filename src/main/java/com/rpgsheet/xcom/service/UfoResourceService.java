@@ -37,6 +37,7 @@ public interface UfoResourceService
     public Palette getPaletteFull(int index);
     public Palette getPaletteMicro(int index);
 
+    public String[] getTextApplication(Language language);
     public String[] getTextGeoscape(Language language);
     public String[] getTextTactical(Language language);
 }

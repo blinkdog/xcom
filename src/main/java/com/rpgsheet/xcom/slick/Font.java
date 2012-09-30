@@ -18,6 +18,10 @@
 
 package com.rpgsheet.xcom.slick;
 
+import java.io.UnsupportedEncodingException;
+import java.util.HashMap;
+import java.util.Map;
+
 public class Font
 {
     public Font(Glyph[] glyphs, int glyphWidth, int glyphHeight)
@@ -25,6 +29,7 @@ public class Font
         this.glyphs = glyphs;
         this.glyphHeight = glyphHeight;
         this.glyphWidth = glyphWidth;
+        this.glyphEncodings = new HashMap<String,Glyph[]>();
     }
 
     public int getGlyphHeight() {
@@ -34,21 +39,40 @@ public class Font
     public int getGlyphWidth() {
         return glyphWidth;
     }
-    
+
+    /**
+     * Obtain the drawable glyphs that correspond to the provided String.
+     * @see https://en.wikipedia.org/wiki/Code_page_437
+     * @param s String to be converted into an array of Glyph objects
+     * @return the drawable glyphs that correspond to the provided String
+     */
     public Glyph[] toGlyphs(String s)
     {
+        // if we've encoded this string before
+        if(glyphEncodings.containsKey(s)) {
+            return glyphEncodings.get(s);
+        }
+        // since we haven't encoded the string, let's do it...
+        byte[] bytes = s.getBytes();
         Glyph[] glyphString = new Glyph[s.length()];
-        
+        // obtain the string bytes encoded in CP 437
+        try {
+            bytes = s.getBytes("CP437");
+        } catch(UnsupportedEncodingException e) {
+            e.printStackTrace(System.err);
+        }
+        // convert each byte into a drawable glyph in the array
         for(int i=0; i<glyphString.length; i++) {
-            char c = s.charAt(i);
-            int index = ((c)-32); // ' ' is the first character
+            int index = (((int)bytes[i]) & 0xFF) - 32;
             if(index >= 0 && index < glyphs.length) {
                 glyphString[i] = glyphs[index];
             } else {
-                glyphString[i] = glyphs[0];
+                glyphString[i] = glyphs[0]; // unknown bytes become ' ' glyphs
             }
         }
-        
+        // since we did all that hard work, let's save it for later
+        glyphEncodings.put(s, glyphString);
+        // return the glyph array to the caller
         return glyphString;
     }
     
@@ -67,4 +91,6 @@ public class Font
     private int glyphWidth;
     
     private Glyph[] glyphs;
+    
+    private Map<String,Glyph[]> glyphEncodings;
 }

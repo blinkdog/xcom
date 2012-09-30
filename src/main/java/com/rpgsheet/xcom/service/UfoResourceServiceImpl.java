@@ -25,20 +25,22 @@ import com.rpgsheet.xcom.slick.Font;
 import com.rpgsheet.xcom.slick.Glyph;
 import com.rpgsheet.xcom.slick.Palette;
 import com.rpgsheet.xcom.type.Language;
+import java.io.DataInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.util.HashMap;
 import java.util.Map;
 import org.newdawn.slick.Image;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import static com.rpgsheet.xcom.service.TextResource.*;
 import static com.rpgsheet.xcom.service.UfoGameFileService.*;
 import static com.rpgsheet.xcom.slick.Glyph.*;
 import static com.rpgsheet.xcom.type.Language.*;
-import java.io.DataInputStream;
 
 @Service("ufoResourceService")
 public class UfoResourceServiceImpl implements UfoResourceService
@@ -106,6 +108,21 @@ public class UfoResourceServiceImpl implements UfoResourceService
         return microPalettes[index];
     }
 
+    @Override
+    public String[] getTextApplication(Language language)
+    {
+        switch(language) {
+            case ENGLISH:
+                return TEXT_APPLICATION_ENGLISH;
+            case FRENCH:
+                return TEXT_APPLICATION_FRENCH;
+            case GERMAN:
+                return TEXT_APPLICATION_GERMAN;
+            default:
+                return TEXT_APPLICATION_ENGLISH;
+        }
+    }
+    
     @Override
     public String[] getTextGeoscape(Language language)
     {
@@ -273,6 +290,12 @@ public class UfoResourceServiceImpl implements UfoResourceService
         }
     }
     
+    /**
+     * Load text resources from the provided file name.
+     * @see https://en.wikipedia.org/wiki/Code_page_437
+     * @param textFileName name of the file from which to load text resources
+     * @return all text resources in the file as a String array
+     */
     private String[] readText(String textFileName)
     {
         File textFile = ufoGameFileService.getGameFile(textFileName);
@@ -288,7 +311,14 @@ public class UfoResourceServiceImpl implements UfoResourceService
             textBytes = new byte[0];
             e.printStackTrace(System.err);
         }
-        String text = new String(textBytes);
+        // the text from an X-COM file is encoded in Code Page 437
+        // so we use that Charset to decode into Java String objects
+        String text = "";
+        try {
+            text = new String(textBytes, "CP437");
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace(System.err);
+        }
         return text.split("\u0000");
     }
     
