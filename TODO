@@ -1,17 +1,12 @@
 TO DO
 -----
-- Add a mouse input listener to language selection state
-- Add option to allow buttons and text to be rendered with inverse colors
-  (useful when 'clicking' a button)
+- Modify application properties when handling language selection mouse input
+- Add a mouse input handler to quit the editor
 - Add a sound sample decoder
 - Add capability to play decoded sound samples (SoundRenderer?)
-- Implement a piece of editor state to hold language
-- Add mouse input handler for the different languages
--- Modify editor state
--- Modify application properties
 - Add a mouse input handler to the game loading state
-- Add a mouse input handler to quit the editor
 - Implement the game load state; display the buttons, game comments, game time
+- Add a mouse input handler for all the game loading buttons
 - Create a geoscape state
 - Add a mouse input handler for all the geoscape buttons
 - Create a polygon globe

@@ -18,6 +18,7 @@
 
 package com.rpgsheet.xcom.state;
 
+import com.rpgsheet.xcom.XcomEditor;
 import com.rpgsheet.xcom.render.Button;
 import com.rpgsheet.xcom.render.Label;
 import com.rpgsheet.xcom.render.Renderable;
@@ -26,7 +27,6 @@ import com.rpgsheet.xcom.service.UfoResourceService;
 import com.rpgsheet.xcom.slick.Font;
 import com.rpgsheet.xcom.slick.Palette;
 import com.rpgsheet.xcom.type.LabelStyle;
-import com.rpgsheet.xcom.type.Language;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
@@ -55,23 +55,29 @@ public class MainMenuState extends BasicGameState
     public void init(GameContainer gc, StateBasedGame sbg)
             throws SlickException
     {
+        // nothing to init
+    }
+    
+    @Override
+    public void enter(GameContainer gc, StateBasedGame sbg)
+    {
         Font largeFont = ufoResourceService.getFontLarge();
         Font smallFont = ufoResourceService.getFontSmall();
         Palette imagePalette = ufoResourceService.getPaletteMicro(0);
         Palette mainPalette = ufoResourceService.getPaletteFull(0);
         Image background = ufoResourceService.getBackground(0, imagePalette);
 
-        String[] appText = ufoResourceService.getTextApplication(Language.GERMAN);
-        String[] geoText = ufoResourceService.getTextGeoscape(Language.GERMAN);
+        String[] appText = ufoResourceService.getTextApplication(xcomEditor.getLanguage());
+        String[] geoText = ufoResourceService.getTextGeoscape(xcomEditor.getLanguage());
         String selectLanguage = appText[SELECT_LANGUAGE];
         String loadSavedGame = geoText[LOAD_SAVED_GAME];
         String quit = geoText[QUIT];
         String title = geoText[UFO_ENEMY_UNKNOWN];
         String[] titleSplit = title.split("\u0002");
         
-        languageButton = new Button(64, 90, 255, 109, mainPalette, 134, smallFont, 134, selectLanguage);
-        loadGameButton = new Button(64, 118, 255, 137, mainPalette, 134, smallFont, 134, loadSavedGame);
-        quitButton = new Button(64, 146, 255, 165, mainPalette, 134, smallFont, 134, quit);
+        languageButton = new Button(64, 90, 255, 109, mainPalette, 134, smallFont, 134, selectLanguage, new Placebo());
+        loadGameButton = new Button(64, 118, 255, 137, mainPalette, 134, smallFont, 134, loadSavedGame, new Placebo());
+        quitButton = new Button(64, 146, 255, 165, mainPalette, 134, smallFont, 134, quit, new Placebo());
         
         ufoTitle = new Label(largeFont, mainPalette, 139, 0, 145, 45, titleSplit[0]);
         enemyUnknownSubtitle = new Label(
@@ -98,7 +104,7 @@ public class MainMenuState extends BasicGameState
     {
         // there is nothing to update
     }
-    
+
     private Renderable mainMenuWindow;
     private Renderable languageButton;
     private Renderable loadGameButton;
@@ -107,4 +113,13 @@ public class MainMenuState extends BasicGameState
     private Renderable enemyUnknownSubtitle;
 
     @Autowired private UfoResourceService ufoResourceService;
+    @Autowired private XcomEditor xcomEditor;
+}
+
+class Placebo implements Runnable
+{
+    public void run()
+    {
+        // TODO: Insert homeopathic medicine
+    }
 }

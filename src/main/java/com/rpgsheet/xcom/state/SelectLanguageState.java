@@ -18,12 +18,14 @@
 
 package com.rpgsheet.xcom.state;
 
+import com.rpgsheet.xcom.XcomEditor;
 import com.rpgsheet.xcom.render.Button;
+import com.rpgsheet.xcom.render.Renderable;
+import com.rpgsheet.xcom.render.Window;
 import com.rpgsheet.xcom.service.UfoResourceService;
 import com.rpgsheet.xcom.slick.Font;
 import com.rpgsheet.xcom.slick.Palette;
-import com.rpgsheet.xcom.render.Renderable;
-import com.rpgsheet.xcom.render.Window;
+import com.rpgsheet.xcom.type.Language;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
@@ -47,21 +49,44 @@ public class SelectLanguageState extends BasicGameState
         return ID;
     }
 
+    @Override
     public void init(GameContainer gc, StateBasedGame sbg)
             throws SlickException
+    {
+        // nothing to init
+    }
+    
+    @Override
+    public void enter(GameContainer gc, StateBasedGame sbg)
     {
         Font smallFont = ufoResourceService.getFontSmall();
         Palette imagePalette = ufoResourceService.getPaletteMicro(0);
         Palette mainPalette = ufoResourceService.getPaletteFull(0);
         Image background = ufoResourceService.getBackground(0, imagePalette);
 
-        englishButton = new Button(64, 90, 255, 109, mainPalette, 134, smallFont, 134, "ENGLISH");
-        germanButton = new Button(64, 118, 255, 137, mainPalette, 134, smallFont, 134, "DEUTSCHE");
-        frenchButton = new Button(64, 146, 255, 165, mainPalette, 134, smallFont, 134, "FRANCAIS");
-        
+        englishButton = new Button(64, 90, 255, 109, mainPalette, 134, smallFont, 134, "ENGLISH",
+            new Runnable() {
+                public void run() {
+                    xcomEditor.setLanguage(Language.ENGLISH);
+                }
+            });
+        frenchButton = new Button(64, 146, 255, 165, mainPalette, 134, smallFont, 134, "FRANCAIS",
+            new Runnable() {
+                public void run() {
+                    xcomEditor.setLanguage(Language.FRENCH);
+                }
+            });
+        germanButton = new Button(64, 118, 255, 137, mainPalette, 134, smallFont, 134, "DEUTSCHE",
+            new Runnable() {
+                public void run() {
+                    xcomEditor.setLanguage(Language.GERMAN);
+                }
+            });
+
         mainMenuWindow = new Window(32, 20, 287, 179, mainPalette, 134, background);
     }
 
+    @Override
     public void render(GameContainer gc, StateBasedGame sbg, Graphics g)
             throws SlickException
     {
@@ -71,16 +96,38 @@ public class SelectLanguageState extends BasicGameState
         frenchButton.render(gc, g);
     }
 
+    @Override
     public void update(GameContainer gc, StateBasedGame sbg, int timeDelta)
             throws SlickException
     {
-        // there is nothing to update
+        // if we already have a selected language, go to the main menu
+        if(xcomEditor.getLanguage() != null) {
+            sbg.enterState(MainMenuState.ID);
+        }
+    }
+
+    @Override
+    public void mousePressed(int button, int x, int y)
+    {
+        englishButton.mousePressed(button, x, y);
+        frenchButton.mousePressed(button, x, y);
+        germanButton.mousePressed(button, x, y);
     }
     
-    private Renderable mainMenuWindow;
-    private Renderable englishButton;
-    private Renderable germanButton;
-    private Renderable frenchButton;
+    @Override
+    public void mouseReleased(int button, int x, int y)
+    {
+        englishButton.mouseReleased(button, x, y);
+        frenchButton.mouseReleased(button, x, y);
+        germanButton.mouseReleased(button, x, y);
+    }
 
+    private Button englishButton;
+    private Button frenchButton;
+    private Button germanButton;
+
+    private Renderable mainMenuWindow;
+    
     @Autowired private UfoResourceService ufoResourceService;
+    @Autowired private XcomEditor xcomEditor;
 }

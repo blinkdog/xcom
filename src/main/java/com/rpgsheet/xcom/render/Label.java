@@ -44,6 +44,8 @@ public class Label implements Renderable
         this.x2 = XCOM_WIDTH - 1;
         this.y2 = XCOM_HEIGHT - 1;
         this.labelStyle = SINGLE_LINE_LEFT;
+        // ------------------------------------------------------------
+        inverted = false;
     }
 
     public Label(Font font, Palette palette, int colorIndex,
@@ -60,6 +62,8 @@ public class Label implements Renderable
         this.x2 = x2;
         this.y2 = y2;
         this.text = text;
+        // ------------------------------------------------------------
+        inverted = false;
     }
     
     @Override
@@ -97,7 +101,12 @@ public class Label implements Renderable
         Glyph[] textGlyphs = font.toGlyphs(text);
         for(int i=0; i<textGlyphs.length; i++)
         {
-            Image glyphImage = textGlyphs[i].getImage(palette, colorIndex);
+            Image glyphImage;
+            if(inverted) {
+                glyphImage = textGlyphs[i].getInvertedImage(palette, colorIndex);
+            } else {
+                glyphImage = textGlyphs[i].getImage(palette, colorIndex);
+            }
             g.drawImage(glyphImage,
                         dx1, dy1,
                         dx1+font.getGlyphWidth()*xScale,
@@ -110,6 +119,14 @@ public class Label implements Renderable
             dx1 += (width * xScale);
         }
     }
+
+    public boolean isInverted() {
+        return inverted;
+    }
+
+    public void setInverted(boolean inverted) {
+        this.inverted = inverted;
+    }
     
     private Font font;
     private Palette palette;
@@ -118,8 +135,10 @@ public class Label implements Renderable
     private float x1;
     private float y1;
     private String text;
-    
+
     private float x2;
     private float y2;
     private LabelStyle labelStyle;
+
+    private boolean inverted;
 }

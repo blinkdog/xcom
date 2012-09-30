@@ -19,6 +19,7 @@
 package com.rpgsheet.xcom;
 
 import com.rpgsheet.xcom.service.UfoGameFileService;
+import com.rpgsheet.xcom.type.Language;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -34,7 +35,6 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import static com.rpgsheet.xcom.service.UfoGameFileService.*;
-import static com.rpgsheet.xcom.type.Language.ENGLISH;
 
 public class PimpMyXcom implements Runnable
 {
@@ -59,6 +59,9 @@ public class PimpMyXcom implements Runnable
         // we know where X-COM is; so we tell the appropriate beans
         UfoGameFileService ufoGameFileService = appContext.getBean(UfoGameFileService.class);
         ufoGameFileService.setUfoPath(ufoPath);
+        // tell the editor what language we want to use
+        XcomEditor xcomEditor = appContext.getBean(XcomEditor.class);
+        xcomEditor.setLanguage(getLanguage());
         // create and run the PimpMyXcom application
         PimpMyXcom pimpMyXcom = new PimpMyXcom();
         pimpMyXcom.run();
@@ -77,6 +80,31 @@ public class PimpMyXcom implements Runnable
         } catch(SlickException e) {
             e.printStackTrace(System.err);
         }
+    }
+
+    private static Language getLanguage() {
+        // load the saved properties for the application
+        Properties appProperties = loadApplicationProperties();
+        // if we can't load application properties, that's bad
+        if(appProperties == null) {
+            log.error("Unable to load application properties.");
+            return null;
+        }
+        // otherwise we'll check to see that X-COM exists
+        String languageString = appProperties.getProperty("xcom.lang");
+        if(languageString == null) {
+            log.error("xcom.lang property is undefined.");
+            return null;
+        }
+        Language language = null;
+        try {
+            language = Language.valueOf(languageString);
+        } catch(IllegalArgumentException e) {
+            // the provided languageString didn't contain one of the
+            // values in the Language enumeration; so we'll just return
+            // the null value instead
+        }
+        return language;
     }
     
     private static String getUfoPath()
@@ -227,7 +255,7 @@ public class PimpMyXcom implements Runnable
     }
     
     private static final String APPLICATION_COMMENT = "PimpMyXcom - Copyright 2012 Patrick Meade";
-    private static final String APPLICATION_DEFAULT_LANG = ENGLISH.name();
+    private static final String APPLICATION_DEFAULT_LANG = "Cydonian"; // :-)
     private static final String APPLICATION_DEFAULT_PATH = "/path/to/xcom";
     private static final String APPLICATION_PROPERTIES_FILE = ".pimpMyXcom";
     private static final String SYSTEM_PROPERTY_USER_HOME = "user.home";

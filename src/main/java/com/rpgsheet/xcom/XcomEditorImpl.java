@@ -18,6 +18,7 @@
 
 package com.rpgsheet.xcom;
 
+import com.rpgsheet.xcom.type.Language;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.GameState;
@@ -31,12 +32,22 @@ public class XcomEditorImpl extends StateBasedGame implements XcomEditor
     public XcomEditorImpl() {
         super("Pimp My X-COM");
     }
+
+    @Override
+    public Language getLanguage() {
+        return language;
+    }
+
+    @Override
+    public void setLanguage(Language language) {
+        this.language = language;
+    }
     
     @Override
     public void initStatesList(GameContainer gc) throws SlickException
     {
         // it seems the first state is the default state
-//        this.addState(selectLanguageState);
+        this.addState(selectLanguageState);
         this.addState(mainMenuState);
         this.addState(displayUfoBackgroundState);
         this.addState(displayUfoPalettesState);
@@ -48,4 +59,6 @@ public class XcomEditorImpl extends StateBasedGame implements XcomEditor
     @Autowired private GameState gameLoadState;
     @Autowired private GameState mainMenuState;
     @Autowired private GameState selectLanguageState;
+    
+    private Language language;
 }

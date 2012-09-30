@@ -111,6 +111,9 @@ public class UfoResourceServiceImpl implements UfoResourceService
     @Override
     public String[] getTextApplication(Language language)
     {
+        if(language == null) {
+            language=ENGLISH;
+        }
         switch(language) {
             case ENGLISH:
                 return TEXT_APPLICATION_ENGLISH;

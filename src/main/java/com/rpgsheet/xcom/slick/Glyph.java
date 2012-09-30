@@ -30,7 +30,7 @@ public class Glyph
     public static final int GLYPH_LARGE_WIDTH = 16;
     public static final int GLYPH_SMALL_HEIGHT = 9;
     public static final int GLYPH_SMALL_WIDTH = 8;
-    
+
     /**
      * Create a Glyph based on data from a file.
      * @param glyphData 
@@ -85,26 +85,52 @@ public class Glyph
         }
         Image image = imageMap2.get(palette);
         if(image == null) {
-            image = renderGlyph(palette, colorIndex);
+            image = renderGlyph(palette, colorIndex, NORMAL);
             imageMap2.put(palette, image);
         }
         return image;
     }
 
-    private Image renderGlyph(Palette palette, int colorIndex)
+    public Image getInvertedImage(Palette palette, int colorIndex) {
+        if(invertMap == null) {
+            invertMap = new HashMap<Integer,Map<Palette,Image>>();
+        }
+        Map<Palette,Image> invertMap2 = invertMap.get(colorIndex);
+        if(invertMap2 == null) {
+            invertMap2 = new HashMap<Palette,Image>();
+            invertMap.put(colorIndex, invertMap2);
+        }
+        Image image = invertMap2.get(palette);
+        if(image == null) {
+            image = renderGlyph(palette, colorIndex, INVERTED);
+            invertMap2.put(palette, image);
+        }
+        return image;
+    }
+    
+    private Image renderGlyph(Palette palette, int colorIndex, boolean inverted)
     {
         int height = glyphData.length;
         int width = glyphData[0].length;
         
         ImageBuffer imageBuffer = new ImageBuffer(width, height);
         
-        colorIndex--; // data is 1-based (1 to 5)
+        if(inverted) {
+            colorIndex += 5;
+        } else {
+            colorIndex--; // data is 1-based (1 to 5)
+        }
         for(int y=0; y<height; y++) {
             for(int x=0; x<width; x++) {
                 if(glyphData[y][x] == 0) {
                     imageBuffer.setRGBA(x,y,255,0,255,0);
                 } else {
-                    Color c = palette.getColor(colorIndex + glyphData[y][x]);
+                    Color c;
+                    if(inverted) {
+                        c = palette.getColor(colorIndex - glyphData[y][x]);
+                    } else {
+                        c = palette.getColor(colorIndex + glyphData[y][x]);
+                    }
                     imageBuffer.setRGBA(x, y, c.getRed(), c.getGreen(), c.getBlue(), c.getAlpha());
                 }
             }
@@ -113,7 +139,11 @@ public class Glyph
         return imageBuffer.getImage(Image.FILTER_NEAREST);
     }
 
+    private static final boolean NORMAL = false;
+    private static final boolean INVERTED = true;
+    
     private boolean space;
     private byte[][] glyphData;
     private Map<Integer,Map<Palette,Image>> imageMap;
+    private Map<Integer,Map<Palette,Image>> invertMap;
 }

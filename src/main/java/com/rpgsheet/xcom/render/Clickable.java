@@ -1,5 +1,5 @@
 /*
- * XcomEditor.java
+ * Clickable.java
  * Copyright 2012 Patrick Meade
  * 
  * This program is free software: you can redistribute it and/or modify
@@ -16,13 +16,10 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package com.rpgsheet.xcom;
+package com.rpgsheet.xcom.render;
 
-import com.rpgsheet.xcom.type.Language;
-import org.newdawn.slick.Game;
-
-public interface XcomEditor extends Game
+public interface Clickable
 {
-    public Language getLanguage();
-    public void setLanguage(Language language);
+    public void mousePressed(int button, int x, int y);
+    public void mouseReleased(int button, int x, int y);
 }
