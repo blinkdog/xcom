@@ -59,7 +59,7 @@ public class MainMenuState extends BasicGameState
     }
     
     @Override
-    public void enter(GameContainer gc, StateBasedGame sbg)
+    public void enter(final GameContainer gc, final StateBasedGame sbg)
     {
         Font largeFont = ufoResourceService.getFontLarge();
         Font smallFont = ufoResourceService.getFontSmall();
@@ -75,9 +75,25 @@ public class MainMenuState extends BasicGameState
         String title = geoText[UFO_ENEMY_UNKNOWN];
         String[] titleSplit = title.split("\u0002");
         
-        languageButton = new Button(64, 90, 255, 109, mainPalette, 134, smallFont, 134, selectLanguage, new Placebo());
-        loadGameButton = new Button(64, 118, 255, 137, mainPalette, 134, smallFont, 134, loadSavedGame, new Placebo());
-        quitButton = new Button(64, 146, 255, 165, mainPalette, 134, smallFont, 134, quit, new Placebo());
+        languageButton = new Button(64, 90, 255, 109, mainPalette, 134, smallFont, 134, selectLanguage,
+            new Runnable() {
+                public void run() {
+                    xcomEditor.setLanguage(null);
+                    sbg.enterState(SelectLanguageState.ID);
+                }
+            });
+        loadGameButton = new Button(64, 118, 255, 137, mainPalette, 134, smallFont, 134, loadSavedGame,
+            new Runnable() {
+                public void run() {
+                    sbg.enterState(GameLoadState.ID);
+                }
+            });
+        quitButton = new Button(64, 146, 255, 165, mainPalette, 134, smallFont, 134, quit,
+            new Runnable() {
+                public void run() {
+                    gc.exit();
+                }
+            });
         
         ufoTitle = new Label(largeFont, mainPalette, 139, 0, 145, 45, titleSplit[0]);
         enemyUnknownSubtitle = new Label(
@@ -105,21 +121,29 @@ public class MainMenuState extends BasicGameState
         // there is nothing to update
     }
 
+    @Override
+    public void mousePressed(int button, int x, int y)
+    {
+        languageButton.mousePressed(button, x, y);
+        loadGameButton.mousePressed(button, x, y);
+        quitButton.mousePressed(button, x, y);
+    }
+    
+    @Override
+    public void mouseReleased(int button, int x, int y)
+    {
+        languageButton.mouseReleased(button, x, y);
+        loadGameButton.mouseReleased(button, x, y);
+        quitButton.mouseReleased(button, x, y);
+    }
+    
     private Renderable mainMenuWindow;
-    private Renderable languageButton;
-    private Renderable loadGameButton;
-    private Renderable quitButton;
+    private Button languageButton;
+    private Button loadGameButton;
+    private Button quitButton;
     private Renderable ufoTitle;
     private Renderable enemyUnknownSubtitle;
 
     @Autowired private UfoResourceService ufoResourceService;
     @Autowired private XcomEditor xcomEditor;
-}
-
-class Placebo implements Runnable
-{
-    public void run()
-    {
-        // TODO: Insert homeopathic medicine
-    }
 }
