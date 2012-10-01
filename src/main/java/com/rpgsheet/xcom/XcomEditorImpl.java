@@ -18,6 +18,7 @@
 
 package com.rpgsheet.xcom;
 
+import com.rpgsheet.xcom.game.SaveGame;
 import com.rpgsheet.xcom.type.Language;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.SlickException;
@@ -34,16 +35,6 @@ public class XcomEditorImpl extends StateBasedGame implements XcomEditor
     }
 
     @Override
-    public Language getLanguage() {
-        return language;
-    }
-
-    @Override
-    public void setLanguage(Language language) {
-        this.language = language;
-    }
-    
-    @Override
     public void initStatesList(GameContainer gc) throws SlickException
     {
         // it seems the first state is the default state
@@ -52,13 +43,36 @@ public class XcomEditorImpl extends StateBasedGame implements XcomEditor
         this.addState(displayUfoBackgroundState);
         this.addState(displayUfoPalettesState);
         this.addState(gameLoadState);
+        this.addState(geoscapeState);
     }
 
+    @Override
+    public Language getLanguage() {
+        return language;
+    }
+
+    @Override
+    public void setLanguage(Language language) {
+        this.language = language;
+    }
+
+    @Override
+    public SaveGame getSaveGame() {
+        return saveGame;
+    }
+
+    @Override
+    public void setSaveGame(SaveGame saveGame) {
+        this.saveGame = saveGame;
+    }
+    
     @Autowired private GameState displayUfoBackgroundState;
     @Autowired private GameState displayUfoPalettesState;
     @Autowired private GameState gameLoadState;
+    @Autowired private GameState geoscapeState;
     @Autowired private GameState mainMenuState;
     @Autowired private GameState selectLanguageState;
     
     private Language language;
+    private SaveGame saveGame;
 }

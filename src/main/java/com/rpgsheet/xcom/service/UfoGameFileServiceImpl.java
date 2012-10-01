@@ -32,6 +32,13 @@ public class UfoGameFileServiceImpl implements UfoGameFileService
     }
 
     @Override
+    public File getSaveFile(int saveSlot, String fileName)
+    {
+        File saveDir = new File(ufoPath, "GAME_" + saveSlot);
+        return new File(saveDir, fileName);
+    }
+    
+    @Override
     public void setUfoPath(String ufoPath)
     {
         this.ufoPath = ufoPath;

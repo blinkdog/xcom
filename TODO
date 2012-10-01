@@ -1,13 +1,10 @@
 TO DO
 -----
-- Implement the game load state; display the buttons, game comments, game time
-- Create a SaveGame entity to hold save game data
-- Create a SaveGameDao to load and save games from directories
-- Add a mouse input handler for all the game loading buttons
+- Implement the details of GameLoadState; display save name, game time, etc.
 - Add a sound sample decoder
 - Add capability to play decoded sound samples (SoundRenderer?)
-- Create a geoscape state
-- Add a mouse input handler for all the geoscape buttons
+- Implement the details of a real geoscape state
+- Add click handlers for all the geoscape buttons
 - Create a polygon globe
 - ...
 

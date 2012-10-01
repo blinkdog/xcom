@@ -1,5 +1,5 @@
 /*
- * XcomEditor.java
+ * SaveGameDao.java
  * Copyright 2012 Patrick Meade
  * 
  * This program is free software: you can redistribute it and/or modify
@@ -16,17 +16,12 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package com.rpgsheet.xcom;
+package com.rpgsheet.xcom.dao;
 
 import com.rpgsheet.xcom.game.SaveGame;
-import com.rpgsheet.xcom.type.Language;
-import org.newdawn.slick.Game;
 
-public interface XcomEditor extends Game
+public interface SaveGameDao
 {
-    public Language getLanguage();
-    public void setLanguage(Language language);
-    
-    public SaveGame getSaveGame();
-    public void setSaveGame(SaveGame saveGame);
+    public SaveGame read(int saveSlot);
+    public void write(int saveSlot, SaveGame saveGame);
 }

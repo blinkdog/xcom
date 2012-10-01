@@ -1,5 +1,5 @@
 /*
- * XcomEditor.java
+ * LittleEndianDataInputStream.java
  * Copyright 2012 Patrick Meade
  * 
  * This program is free software: you can redistribute it and/or modify
@@ -16,17 +16,28 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package com.rpgsheet.xcom;
+package com.rpgsheet.xcom.io;
 
-import com.rpgsheet.xcom.game.SaveGame;
-import com.rpgsheet.xcom.type.Language;
-import org.newdawn.slick.Game;
+import java.io.DataInputStream;
+import java.io.IOException;
+import java.io.InputStream;
 
-public interface XcomEditor extends Game
+public class LittleEndianDataInputStream
 {
-    public Language getLanguage();
-    public void setLanguage(Language language);
+    public LittleEndianDataInputStream(InputStream inputStream)
+    {
+        this.dataInputStream = new DataInputStream(inputStream);
+    }
     
-    public SaveGame getSaveGame();
-    public void setSaveGame(SaveGame saveGame);
+    public int readUnsignedShort() throws IOException {
+        int lb = dataInputStream.readUnsignedByte();
+        int hb = dataInputStream.readUnsignedByte();
+        return ((hb << 8) | (lb));
+    }
+
+    public void read(byte[] bytes) throws IOException {
+        dataInputStream.readFully(bytes);
+    }
+    
+    private DataInputStream dataInputStream;
 }

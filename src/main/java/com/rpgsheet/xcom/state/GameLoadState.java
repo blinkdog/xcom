@@ -19,13 +19,14 @@
 package com.rpgsheet.xcom.state;
 
 import com.rpgsheet.xcom.XcomEditor;
+import com.rpgsheet.xcom.dao.SaveGameDao;
+import com.rpgsheet.xcom.game.SaveGame;
 import com.rpgsheet.xcom.render.Button;
 import com.rpgsheet.xcom.render.Label;
 import com.rpgsheet.xcom.render.Renderable;
 import com.rpgsheet.xcom.render.Window;
 import com.rpgsheet.xcom.service.UfoResourceService;
 import com.rpgsheet.xcom.slick.Palette;
-import com.rpgsheet.xcom.type.Language;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
@@ -86,12 +87,26 @@ public class GameLoadState extends BasicGameState
             });
         
         for(int i=0; i<10; i++) {
-            gameButtons[i] = new Button(10, i*14+32, 33, i*14+43, mainPalette, 134, smallFont, 134, String.valueOf(i+1),
-                new Runnable() {
+            // load up the save game and determine what's up
+            SaveGame saveGame = saveGameDao.read(i+1);
+            int buttonColor = 134;
+            Runnable loadGameAction = new LoadGameAction(xcomEditor, saveGame);
+            // if there was nothing in this save slot, change the button
+            // color and action to "greyed out" / no-operation
+            if(saveGame.saveinfo == null) {
+                buttonColor = 96;
+                loadGameAction = new Runnable() {
                     public void run() {
-                        System.err.println("Loading game...");
+                        // there is no game to load, so do nothing
                     }
-                });
+                };
+            } 
+            // create the button with the appropriate color and action
+            gameButtons[i] = new Button(
+                10, i*14+32, 33, i*14+43,
+                mainPalette, buttonColor,
+                smallFont, buttonColor,
+                String.valueOf(i+1), loadGameAction);
         }
     }
 
@@ -109,7 +124,9 @@ public class GameLoadState extends BasicGameState
     public void update(GameContainer gc, StateBasedGame sbg, int timeDelta)
             throws SlickException
     {
-        // there is nothing to update
+        if(xcomEditor.getSaveGame() != null) {
+            sbg.enterState(GeoscapeState.ID);
+        }
     }
 
     @Override
@@ -136,6 +153,22 @@ public class GameLoadState extends BasicGameState
     private Button cancelButton;
     private Button[] gameButtons;
     
+    @Autowired private SaveGameDao saveGameDao;
     @Autowired private UfoResourceService ufoResourceService;
     @Autowired private XcomEditor xcomEditor;
+}
+
+class LoadGameAction implements Runnable
+{
+    public LoadGameAction(XcomEditor xcomEditor, SaveGame saveGame) {
+        this.xcomEditor = xcomEditor;
+        this.saveGame = saveGame;
+    }
+    
+    private SaveGame saveGame;
+    private XcomEditor xcomEditor;
+
+    public void run() {
+        xcomEditor.setSaveGame(saveGame);
+    }
 }

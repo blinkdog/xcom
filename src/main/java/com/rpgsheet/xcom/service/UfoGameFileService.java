@@ -51,6 +51,65 @@ public interface UfoGameFileService
     public static final String SMALLSET_DAT = "GEODATA/SMALLSET.DAT";
     public static final String UFO_BAT = "UFO.BAT";
     
+    public static final String ACTS_DAT     = "ACTS.DAT";
+    public static final String AKNOW_DAT    = "AKNOW.DAT";
+    public static final String ALIEN_DAT    = "ALIEN.DAT";
+    public static final String ASTORE_DAT   = "ASTORE.DAT";
+    public static final String BASE_DAT     = "BASE.DAT";
+    public static final String BPROD_DAT    = "BPROD.DAT";
+    public static final String CRAFT_DAT    = "CRAFT.DAT";
+    public static final String DIPLOM_DAT   = "DIPLOM.DAT";
+    public static final String FACIL_DAT    = "FACIL.DAT";
+    public static final String IGLOB_DAT    = "IGLOB.DAT";
+    public static final String INTER_DAT    = "INTER.DAT";
+    public static final String LEASE_DAT    = "LEASE.DAT";
+    public static final String LIGLOB_DAT   = "LIGLOB.DAT";
+    public static final String LOC_DAT      = "LOC.DAT";
+    public static final String MISSIONS_DAT = "MISSIONS.DAT";
+    public static final String PRODUCT_DAT  = "PRODUCT.DAT";
+    public static final String PROJECT_DAT  = "PROJECT.DAT";
+    public static final String PURCHASE_DAT = "PURCHASE.DAT";
+    public static final String RESEARCH_DAT = "RESEARCH.DAT";
+    public static final String SAVEINFO_DAT = "SAVEINFO.DAT";
+    public static final String SOLDIER_DAT  = "SOLDIER.DAT";
+    public static final String TRANSFER_DAT = "TRANSFER.DAT";
+    public static final String UIGLOB_DAT   = "UIGLOB.DAT";
+    public static final String UP_DAT       = "UP.DAT";
+    public static final String XBASES_DAT   = "XBASES.DAT";
+    public static final String XCOM_DAT     = "XCOM.DAT";
+    public static final String ZONAL_DAT    = "ZONAL.DAT";
+    
+    public static final String[] GEOSCAPE_FILES = {
+        ACTS_DAT,
+        AKNOW_DAT,
+        ALIEN_DAT,
+        ASTORE_DAT,
+        BASE_DAT,
+        BPROD_DAT,
+        CRAFT_DAT,
+        DIPLOM_DAT,
+        FACIL_DAT,
+        IGLOB_DAT,
+        INTER_DAT,
+        LEASE_DAT,
+        LIGLOB_DAT,
+        LOC_DAT,
+        MISSIONS_DAT,
+        PRODUCT_DAT,
+        PROJECT_DAT,
+        PURCHASE_DAT,
+        RESEARCH_DAT,
+        SAVEINFO_DAT,
+        SOLDIER_DAT,
+        TRANSFER_DAT,
+        UIGLOB_DAT,
+        UP_DAT,
+        XBASES_DAT,
+        XCOM_DAT,
+        ZONAL_DAT
+    };
+    
     public File getGameFile(String fileName);
+    public File getSaveFile(int saveSlot, String fileName);
     public void setUfoPath(String ufoPath);
 }
