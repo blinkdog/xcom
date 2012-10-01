@@ -18,6 +18,7 @@
 
 package com.rpgsheet.xcom.state;
 
+import com.rpgsheet.xcom.PimpMyXcom;
 import com.rpgsheet.xcom.XcomEditor;
 import com.rpgsheet.xcom.render.Button;
 import com.rpgsheet.xcom.render.Renderable;
@@ -26,6 +27,8 @@ import com.rpgsheet.xcom.service.UfoResourceService;
 import com.rpgsheet.xcom.slick.Font;
 import com.rpgsheet.xcom.slick.Palette;
 import com.rpgsheet.xcom.type.Language;
+import java.io.IOException;
+import java.util.Properties;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
@@ -68,18 +71,21 @@ public class SelectLanguageState extends BasicGameState
             new Runnable() {
                 public void run() {
                     xcomEditor.setLanguage(Language.ENGLISH);
+                    updateLanguageProperty(Language.ENGLISH);
                 }
             });
         frenchButton = new Button(64, 146, 255, 165, mainPalette, 134, smallFont, 134, "FRANCAIS",
             new Runnable() {
                 public void run() {
                     xcomEditor.setLanguage(Language.FRENCH);
+                    updateLanguageProperty(Language.FRENCH);
                 }
             });
         germanButton = new Button(64, 118, 255, 137, mainPalette, 134, smallFont, 134, "DEUTSCHE",
             new Runnable() {
                 public void run() {
                     xcomEditor.setLanguage(Language.GERMAN);
+                    updateLanguageProperty(Language.GERMAN);
                 }
             });
 
@@ -130,4 +136,14 @@ public class SelectLanguageState extends BasicGameState
     
     @Autowired private UfoResourceService ufoResourceService;
     @Autowired private XcomEditor xcomEditor;
+    
+    private static void updateLanguageProperty(Language language) {
+        Properties appProps = PimpMyXcom.loadApplicationProperties();
+        appProps.setProperty("xcom.lang", language.name());
+        try {
+            PimpMyXcom.saveApplicationProperties(appProps);
+        } catch(IOException e) {
+            e.printStackTrace(System.err);
+        }
+    }
 }

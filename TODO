@@ -1,12 +1,11 @@
 TO DO
 -----
-- Modify application properties when handling language selection mouse input
-- Add a mouse input handler to quit the editor
+- Implement the game load state; display the buttons, game comments, game time
+- Create a SaveGame entity to hold save game data
+- Create a SaveGameDao to load and save games from directories
+- Add a mouse input handler for all the game loading buttons
 - Add a sound sample decoder
 - Add capability to play decoded sound samples (SoundRenderer?)
-- Add a mouse input handler to the game loading state
-- Implement the game load state; display the buttons, game comments, game time
-- Add a mouse input handler for all the game loading buttons
 - Create a geoscape state
 - Add a mouse input handler for all the geoscape buttons
 - Create a polygon globe

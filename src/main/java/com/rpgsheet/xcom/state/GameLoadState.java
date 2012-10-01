@@ -18,10 +18,14 @@
 
 package com.rpgsheet.xcom.state;
 
+import com.rpgsheet.xcom.XcomEditor;
+import com.rpgsheet.xcom.render.Button;
+import com.rpgsheet.xcom.render.Label;
 import com.rpgsheet.xcom.render.Renderable;
 import com.rpgsheet.xcom.render.Window;
 import com.rpgsheet.xcom.service.UfoResourceService;
 import com.rpgsheet.xcom.slick.Palette;
+import com.rpgsheet.xcom.type.Language;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
@@ -30,6 +34,10 @@ import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+
+import static com.rpgsheet.xcom.service.TextResource.*;
+import com.rpgsheet.xcom.slick.Font;
+import com.rpgsheet.xcom.type.LabelStyle;
 
 @Component("gameLoadState")
 public class GameLoadState extends BasicGameState
@@ -48,23 +56,54 @@ public class GameLoadState extends BasicGameState
     public void init(GameContainer gc, StateBasedGame sbg)
             throws SlickException
     {
-        // nothing to init
+        gameButtons = new Button[10];
     }
     
     @Override
-    public void enter(GameContainer gc, StateBasedGame sbg)
+    public void enter(GameContainer gc, final StateBasedGame sbg)
     {
         Palette mainPalette = ufoResourceService.getPaletteFull(0);
         Palette imagePalette = ufoResourceService.getPaletteMicro(6);
         Image background = ufoResourceService.getBackground(0, imagePalette);
+        String[] geoText = ufoResourceService.getTextGeoscape(xcomEditor.getLanguage());
+        Font smallFont = ufoResourceService.getFontSmall();
+        Font largeFont = ufoResourceService.getFontLarge();
         
-        saveGameWindow = new Window(0, 0, 319, 199, mainPalette, 134, background);
+        loadGameWindow = new Window(0, 0, 319, 199, mainPalette, 134, background);
+
+        String selectGameToLoad = geoText[SELECT_GAME_TO_LOAD];
+        selectGameTitle = new Label(
+            largeFont, mainPalette, 240, 0,
+            LabelStyle.SINGLE_LINE_CENTER,
+            0, 8, 319, 23, selectGameToLoad);
+        
+        String cancel = geoText[CANCEL];
+        cancelButton = new Button(120, 172, 199, 187, mainPalette, 134, smallFont, 134, cancel,
+            new Runnable() {
+                public void run() {
+                    sbg.enterState(MainMenuState.ID);
+                }
+            });
+        
+        for(int i=0; i<10; i++) {
+            gameButtons[i] = new Button(10, i*14+32, 33, i*14+43, mainPalette, 134, smallFont, 134, String.valueOf(i+1),
+                new Runnable() {
+                    public void run() {
+                        System.err.println("Loading game...");
+                    }
+                });
+        }
     }
 
     public void render(GameContainer gc, StateBasedGame sbg, Graphics g)
             throws SlickException
     {
-        saveGameWindow.render(gc, g);
+        loadGameWindow.render(gc, g);
+        selectGameTitle.render(gc, g);
+        cancelButton.render(gc, g);
+        for(int i=0; i<10; i++) {
+            gameButtons[i].render(gc, g);
+        }
     }
 
     public void update(GameContainer gc, StateBasedGame sbg, int timeDelta)
@@ -72,8 +111,31 @@ public class GameLoadState extends BasicGameState
     {
         // there is nothing to update
     }
+
+    @Override
+    public void mousePressed(int button, int x, int y)
+    {
+        cancelButton.mousePressed(button, x, y);
+        for(int i=0; i<10; i++) {
+            gameButtons[i].mousePressed(button, x, y);
+        }
+    }
     
-    private Renderable saveGameWindow;
+    @Override
+    public void mouseReleased(int button, int x, int y)
+    {
+        cancelButton.mouseReleased(button, x, y);
+        for(int i=0; i<10; i++) {
+            gameButtons[i].mouseReleased(button, x, y);
+        }
+    }
+    
+    private Renderable loadGameWindow;
+    private Renderable selectGameTitle;
+
+    private Button cancelButton;
+    private Button[] gameButtons;
     
     @Autowired private UfoResourceService ufoResourceService;
+    @Autowired private XcomEditor xcomEditor;
 }

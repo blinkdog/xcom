@@ -136,7 +136,7 @@ public class PimpMyXcom implements Runnable
         return xcomDir.getAbsolutePath();
     }
     
-    private static Properties loadApplicationProperties()
+    public static Properties loadApplicationProperties()
     {
         String homePath = System.getProperty(SYSTEM_PROPERTY_USER_HOME);
         // verify that the home directory exists and can be read
@@ -181,7 +181,7 @@ public class PimpMyXcom implements Runnable
         appProperties.setProperty("xcom.lang", APPLICATION_DEFAULT_LANG);
         appProperties.setProperty("xcom.path", APPLICATION_DEFAULT_PATH);
         // and write them to the disk
-        saveApplicationProperties(appPropertiesFile, appProperties);
+        saveApplicationProperties(appProperties);
     }
 
     private static void openXcomPathDialog(Properties appProperties)
@@ -209,11 +209,8 @@ public class PimpMyXcom implements Runnable
             // store the path to xcom in the application properties
             appProperties.setProperty("xcom.path", xcomPath);
             // write the updated application properties to disk
-            String homePath = System.getProperty(SYSTEM_PROPERTY_USER_HOME);
-            File homeDir = new File(homePath);
-            File appPropertiesFile = new File(homeDir, APPLICATION_PROPERTIES_FILE);
             try {
-                saveApplicationProperties(appPropertiesFile, appProperties);
+                saveApplicationProperties(appProperties);
             } catch(IOException e) {
                 log.error("Unable to store X-COM path in application properties.", e);
                 return;
@@ -245,10 +242,11 @@ public class PimpMyXcom implements Runnable
         return true;
     }
 
-    private static void saveApplicationProperties(
-            File appPropertiesFile, Properties appProperties)
+    public static void saveApplicationProperties(Properties appProperties)
         throws IOException
     {
+        String homePath = System.getProperty(SYSTEM_PROPERTY_USER_HOME);
+        File appPropertiesFile = new File(homePath, APPLICATION_PROPERTIES_FILE);
         FileWriter fileWriter = new FileWriter(appPropertiesFile);
         appProperties.store(fileWriter, APPLICATION_COMMENT);
         fileWriter.close();

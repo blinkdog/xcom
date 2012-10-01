@@ -24,8 +24,10 @@ public interface TextResource
     public static final int SELECT_LANGUAGE = 0;
     
     // Geoscape Text Indexes
+    public static final int CANCEL = 49;
     public static final int LOAD_SAVED_GAME = 781;
     public static final int QUIT = 801;
+    public static final int SELECT_GAME_TO_LOAD = 790;
     public static final int UFO_ENEMY_UNKNOWN = 779;
     
     // ----------------------------------------------------------------
